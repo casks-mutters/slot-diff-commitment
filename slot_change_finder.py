@@ -98,6 +98,7 @@ def main():
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected (chainId {chain_id}, tip {tip})")
+    if hi > tip: print(f"⚠️ end_block {hi} > tip {tip}; clamping."); hi = tip
 
     if hi > tip:
         print(f"⚠️ Upper bound {hi} exceeds tip {tip}; clamping to tip.")
