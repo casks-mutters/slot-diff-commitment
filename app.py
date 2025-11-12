@@ -59,6 +59,7 @@ def main():
         sys.exit(1)
 
     address = checksum(sys.argv[1])
+    if not Web3.is_address(address): print("❌ Invalid Ethereum address format."); sys.exit(1)
     slot = parse_slot(sys.argv[2])
     try:
         block_a = int(sys.argv[3])
