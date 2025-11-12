@@ -114,6 +114,7 @@ def main():
 
     base_val = storage_at(str(w3.provider.endpoint_uri), address, slot, lo)
     end_val  = storage_at(str(w3.provider.endpoint_uri), address, slot, hi)
+    if len(base_val) != 32 or len(end_val) != 32: print("❌ Storage read not 32 bytes."); sys.exit(2)
 
     print("\n📦 Target")
     print(f"  Address: {address}")
