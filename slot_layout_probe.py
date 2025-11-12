@@ -1,6 +1,11 @@
 # slot_layout_probe.py
 # Probe a contract's storage layout: scan a set/range of slots at two blocks,
 # report non-zero values and changes, and emit commitments + pair roots (CSV/STDOUT).
+from __future__ import annotations
+
+ Module metadata
+__version__: str = "0.1.0"
+__author__: str = "Contributors"
 
 import os, sys, csv, time, argparse
 from typing import Iterable, List, Tuple
