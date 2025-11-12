@@ -99,4 +99,5 @@ def main():
     print(f"\n⏱️  Elapsed: {time.time() - start:.2f}s")
 
 if __name__ == "__main__":
+    print(f"🕒 Observation timestamp (UTC): {time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())}")
     main()
