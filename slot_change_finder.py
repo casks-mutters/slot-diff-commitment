@@ -93,7 +93,8 @@ def main():
     if lo > hi:
         lo, hi = hi, lo
         print("🔄 Swapped block order for ascending search.")
-
+        if lo == hi: print("ℹ️ start_block == end_block; nothing to search."); sys.exit(0)
+            
     w3 = connect(args.rpc)
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
