@@ -57,7 +57,8 @@ def main():
         print("Usage: python app.py <contract_address> <slot(hex|int)> <block_a> <block_b>")
         print("Example: python app.py 0xA0b8...eB48 0x0 18000000 19000000")
         sys.exit(1)
-
+        
+   if not Web3.is_address(sys.argv[1]): print("❌ Invalid Ethereum address."); sys.exit(1)
     address = checksum(sys.argv[1])
     slot = parse_slot(sys.argv[2])
     try:
