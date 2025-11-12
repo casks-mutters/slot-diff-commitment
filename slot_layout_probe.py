@@ -148,6 +148,7 @@ def main():
             continue
 
         changed = v_a != v_b
+        if v_a == v_b == b"\x00"*32: print(f"ℹ️ Slot {hex(slot)}: both zero — likely unused storage.")
         any_nonzero = (v_a != b"\x00"*32) or (v_b != b"\x00"*32)
         if args.only_changed and not changed:
             continue
