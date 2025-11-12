@@ -59,6 +59,7 @@ def stream(args):
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected to chainId {chain_id}, tip {tip}")
+    if current > tip: print(f"⚠️ start {current} > tip {tip}; clamping to tip."); current = tip
     print(f"🔍 Watching address={address}, slot={hex(slot)} ({slot}) every {args.interval:.1f}s")
 
     stop_flag = {"stop": False}
