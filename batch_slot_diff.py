@@ -92,6 +92,6 @@ def main():
             "pair_root": root,
             "changed": changed,
         })
-
+print(f"\n📊 Processed {reader.line_num-1} rows total.")
 if __name__ == "__main__":
     main()
