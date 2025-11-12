@@ -85,6 +85,7 @@ def main():
     args = ap.parse_args()
 
     address = checksum(args.address)
+    if int(address, 16) == 0: print("❌ Zero address is not a valid contract target."); sys.exit(2)
     slot = parse_slot(args.slot)
     if slot < 0 or slot >= 2**256:
         print("❌ Slot out of range [0, 2^256)."); sys.exit(2)
