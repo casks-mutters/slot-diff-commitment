@@ -102,7 +102,8 @@ def main():
 
     if "your_api_key" in args.rpc:
         print("⚠️ RPC_URL still uses Infura placeholder — replace with a real key.")
-
+        
+ if not Web3.is_address(args.address): print("❌ Invalid Ethereum address."); sys.exit(2)
     address = checksum(args.address)
     block_a, block_b = args.block_a, args.block_b
     if min(block_a, block_b) < 0:
