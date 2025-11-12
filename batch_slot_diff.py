@@ -69,6 +69,8 @@ def main():
             print(f"⚠️  {address} has no contract code; continuing.", file=sys.stderr)
 
         try:
+            tip = w3.eth.block_number
+            if block_a > tip or block_b > tip: print(f"⚠️ {address}: requested block beyond tip {tip}"); continue
             v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
             v_b = w3.eth.get_storage_at(address, slot, block_identifier=block_b)
         except Exception as e:
