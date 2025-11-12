@@ -53,6 +53,7 @@ def main():
     for row in reader:
         try:
             address = checksum(row["address"].strip())
+            if not Web3.is_address(address): print(f"❌ Invalid address: {row['address']}"); continue
             slot = parse_slot(row["slot"].strip())
             block_a = int(row["block_a"])
             block_b = int(row["block_b"])
