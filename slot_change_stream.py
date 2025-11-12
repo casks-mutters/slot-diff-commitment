@@ -86,8 +86,7 @@ def stream(args):
         try:
             latest = w3.eth.block_number
         except Exception as e:
-            print(f"⚠️ Failed to read latest block: {e}")
-            time.sleep(args.interval); continue
+            print(f"⚠️ Failed to read latest block: {e}"); time.sleep(min(10, args.interval*2)); continue
 
         # progress through new blocks up to latest
         while current <= latest and not stop_flag["stop"]:
