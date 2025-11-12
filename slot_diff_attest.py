@@ -109,6 +109,7 @@ def main():
     try:
         v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
         v_b = w3.eth.get_storage_at(address, slot, block_identifier=block_b)
+        if v_a in (None, b"") or v_b in (None, b""): print("❌ Historical storage unavailable (archive node required)."); sys.exit(2)
     except Exception as e:
         print(f"❌ Storage read failed: {e}"); sys.exit(2)
 
