@@ -65,8 +65,7 @@ def main():
             block_a, block_b = block_b, block_a
 
         code = w3.eth.get_code(address)
-        if not code:
-            print(f"⚠️  {address} has no contract code; continuing.", file=sys.stderr)
+        if not code: print("⚠️ Target address has no contract code (likely EOA) — storage slot results may be misleading.")
 
         try:
             v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
