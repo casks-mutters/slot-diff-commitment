@@ -152,7 +152,9 @@ def stream(args):
 
         if stop_flag["stop"]:
             break
-        time.sleep(args.interval)
+     t0 = time.monotonic()
+while not stop_flag["stop"] and time.monotonic() - t0 < args.interval:
+    time.sleep(0.05)
 
     if csv_writer:
         try:
