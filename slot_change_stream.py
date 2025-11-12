@@ -59,7 +59,7 @@ def stream(args):
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected to chainId {chain_id}, tip {tip}")
-    print(f"🔍 Watching address={address}, slot={hex(slot)} ({slot}) every {args.interval:.1f}s")
+    print(f"🔍 Watching address={address}, slot={hex(slot)} ({slot}) every {args.inter:.1f}s")
 
     stop_flag = {"stop": False}
     signal.signal(signal.SIGINT, lambda *_: (print("\n🛑 Interrupted."), stop_flag.update(stop=True)))
@@ -69,13 +69,13 @@ def stream(args):
     if args.csv:
         out = open(args.csv, "a", newline="")
         csv_writer = csv.DictWriter(out, fieldnames=[
-            "ts_utc","block","value","leaf","prev_block","prev_value","prev_leaf","pair_root","changed"
+            "ts_utc","block","ue","leaf","prev_block","prev_ue","prev_leaf","pair_root","changed"
         ])
         if args.csv_header:
             csv_writer.writeheader()
 
     last_block = None
-    last_value = None
+    last_ue = None
     last_leaf  = None
     changes = 0
 
@@ -87,16 +87,18 @@ def stream(args):
             latest = w3.eth.block_number
         except Exception as e:
             print(f"⚠️ Failed to read latest block: {e}")
-            time.sleep(args.interval); continue
+            time.sleep(args.inter); continue
 
         # progress through new blocks up to latest
         while current <= latest and not stop_flag["stop"]:
             try:
                 blk = w3.eth.get_block(current)
-                val = get_storage_at(w3, address, slot, current)
+                 = get_storage_at(w3, address, slot, current)
             except Exception as e:
-                print(f"⚠️ Block {current} fetch error: {e}")
-                break
+        time.sleep(0.3)
+        try: blk = w3.eth.get_block(current); val = get_storage_at(w3, address, slot, current)
+        except Exception as e2: print(f"⚠️ Block {current} fetch error (after retry): {e2}"); break
+
 
             leaf = leaf_commitment(chain_id, address, slot, current, val)
 
