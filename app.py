@@ -66,6 +66,7 @@ def main():
     except ValueError:
         print("❌ block_a and block_b must be integers.")
         sys.exit(1)
+        if block_a > block_b: block_a, block_b = block_b, block_a; print("🔄 Swapped block order for ascending comparison.")
 
     w3 = connect(RPC_URL)
     print(f"🌐 Connected to {network_name(w3.eth.chain_id)} (chainId {w3.eth.chain_id})")
