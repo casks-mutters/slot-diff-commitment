@@ -109,8 +109,11 @@ def main():
     try:
         v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
         v_b = w3.eth.get_storage_at(address, slot, block_identifier=block_b)
+        break
     except Exception as e:
-        print(f"❌ Storage read failed: {e}"); sys.exit(2)
+        time.sleep(0.3)
+else:
+    print(f"❌ Storage read failed after retries."); sys.exit(2)
 
     leaf_a = leaf_commitment(chain_id, address, slot, block_a, v_a)
     leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
