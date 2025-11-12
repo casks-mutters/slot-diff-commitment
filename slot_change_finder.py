@@ -149,6 +149,7 @@ def main():
         print(f"🌳 Pair root (change,end): {root23}")
 
     print(f"\n⏱️ Elapsed: {time.time() - t0:.2f}s")
-
+    print(f"🕒 Report generated at {time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())} UTC")
+    
 if __name__ == "__main__":
     main()
