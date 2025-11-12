@@ -106,9 +106,8 @@ def main():
         print("❌ start_block must be ≥ 0."); sys.exit(2)
 
     code = w3.eth.get_code(address)
-    if not code:
-        print("⚠️ Target has no contract code — likely an EOA.")
-
+    if not code: print("❌ Target has no contract code (EOA)."); sys.exit(2)
+   
     t0 = time.time()
     first_change = find_first_change(w3, address, slot, lo, hi)
 
