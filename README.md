@@ -12,6 +12,10 @@ A tiny Web3 tool that checks the soundness of a specific contract storage slot a
 - web3.py
 - An Ethereum-compatible RPC endpoint (Infura, Alchemy, or your own node)
 
+**Networks**  
+Works with any Ethereum-style JSON-RPC. Tested: Ethereum Mainnet, Sepolia, Polygon, Arbitrum, Optimism.  
+Some L2s may not expose deep history unless using their archival RPC.
+
 ## Install
 1) Install the dependency: pip install web3
 2) Configure RPC: set environment variable RPC_URL or edit the constant in app.py
