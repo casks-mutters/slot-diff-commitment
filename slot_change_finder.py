@@ -66,7 +66,8 @@ def find_first_change(w3: Web3, addr: str, slot: int, lo: int, hi: int) -> int |
         return None
 
     left, right = lo, hi
-    while right - left > 1:
+    max_iters = 512
+    while right - left > 1 and (max_iters := max_iters - 1) > 0:
         mid = (left + right) // 2
         vmid = storage_at(str(w3.provider.endpoint_uri), addr, slot, mid)
         if vmid == base:
