@@ -87,6 +87,7 @@ def main():
     args = ap.parse_args()
 
     address = checksum(args.address)
+    if address.lower().startswith("0x0000") or int(address, 16) < 2**160 // 1000: print("⚠️ Address looks like EOA or trivial; check target.")
     slot = parse_slot(args.slot)
     block_a, block_b = args.block_a, args.block_b
 
