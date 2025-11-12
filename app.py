@@ -69,7 +69,9 @@ def main():
 
     w3 = connect(RPC_URL)
     print(f"🌐 Connected to {network_name(w3.eth.chain_id)} (chainId {w3.eth.chain_id})")
-
+    latest = w3.eth.block_number
+    if block_a > latest or block_b > latest: print(f"⚠️ Requested block exceeds chain tip ({latest}); values may be unavailable.")
+        
     start = time.time()
 
     v_a = get_storage_at(w3, address, slot, block_a)
