@@ -92,9 +92,11 @@ def stream(args):
         # progress through new blocks up to latest
         while current <= latest and not stop_flag["stop"]:
             try:
-                blk = w3.eth.get_block(current)
-                val = get_storage_at(w3, address, slot, current)
-            except Exception as e:
+    blk = w3.eth.get_block(current); val = get_storage_at(w3, address, slot, current)
+    except Exception as e:
+    time.sleep(0.3); 
+    try: blk = w3.eth.get_block(current); val = get_storage_at(w3, address, slot, current)
+    except Exception as e2: print(f"⚠️ Block {current} fetch error: {e2}"); break
                 print(f"⚠️ Block {current} fetch error: {e}")
                 break
 
