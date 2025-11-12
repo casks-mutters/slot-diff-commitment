@@ -74,7 +74,8 @@ def main():
         except Exception as e:
             print(f"⚠️  RPC error on {address} slot {slot}: {e}", file=sys.stderr)
             continue
-
+            
+        if v_a is None or v_b is None: print(f"⚠️ Missing storage data for {address}"); continue
         leaf_a = leaf_commitment(chain_id, address, slot, block_a, v_a)
         leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
         root = pair_root(leaf_a, leaf_b)
