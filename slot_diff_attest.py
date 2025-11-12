@@ -89,6 +89,7 @@ def main():
     address = checksum(args.address)
     slot = parse_slot(args.slot)
     block_a, block_b = args.block_a, args.block_b
+    if block_a == block_b: print("ℹ️ Same block provided — comparison will trivially show unchanged."); sys.exit(0)
 
     if min(block_a, block_b) < 0:
         print("❌ Block numbers must be ≥ 0."); sys.exit(2)
