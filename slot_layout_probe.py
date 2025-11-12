@@ -1,6 +1,15 @@
 # slot_layout_probe.py
 # Probe a contract's storage layout: scan a set/range of slots at two blocks,
 # report non-zero values and changes, and emit commitments + pair roots (CSV/STDOUT).
++"""Utilities for probing/inspecting slot layouts.
++
++This module is intentionally lightweight; helpers are safe to import and
++do not change runtime behavior unless explicitly called.
++"""
++
+git checkout -b chore/module-docstring
+git add -A && git commit -m "chore: add module docstring"
+git push -u origin chore/module-docstring
 
 import os, sys, csv, time, argparse
 from typing import Iterable, List, Tuple
