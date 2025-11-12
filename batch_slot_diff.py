@@ -77,6 +77,9 @@ def main():
 
         leaf_a = leaf_commitment(chain_id, address, slot, block_a, v_a)
         leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
+        fee_a = w3.eth.get_block(block_a).get("baseFeePerGas", 0); fee_b = w3.eth.get_block(block_b).get("baseFeePerGas", 0)
+        print(f"⛽ BaseFee Gwei: A={Web3.from_wei(fee_a, 'gwei'):.2f}, B={Web3.from_wei(fee_b, 'gwei'):.2f}")
+
         root = pair_root(leaf_a, leaf_b)
         changed = "YES" if v_a != v_b else "NO"
 
