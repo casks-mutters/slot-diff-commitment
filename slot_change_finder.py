@@ -110,6 +110,8 @@ def main():
         print("⚠️ Target has no contract code — likely an EOA.")
 
     t0 = time.time()
+    try: _ = storage_at(str(w3.provider.endpoint_uri), address, slot, lo)
+    except Exception as e: print(f"❌ Cannot read baseline at {lo}: {e}"); sys.exit(2)
     first_change = find_first_change(w3, address, slot, lo, hi)
 
     base_val = storage_at(str(w3.provider.endpoint_uri), address, slot, lo)
