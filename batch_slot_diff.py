@@ -54,6 +54,7 @@ def main():
         try:
             address = checksum(row["address"].strip())
             slot = parse_slot(row["slot"].strip())
+            if slot < 0 or slot >= 2**256: print(f"❌ Slot out of range for {address}: {slot}"); continue
             block_a = int(row["block_a"])
             block_b = int(row["block_b"])
         except Exception as e:
