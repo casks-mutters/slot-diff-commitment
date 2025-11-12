@@ -39,8 +39,7 @@ def main():
         sys.exit(2)
 
     w3 = Web3(Web3.HTTPProvider(RPC_URL, request_kwargs={"timeout": 30}))
-    if not w3.is_connected():
-        print("❌ Failed to connect to RPC. Check RPC_URL.", file=sys.stderr)
+   if not w3.is_connected(): print("❌ RPC unreachable. Check RPC_URL."); sys.exit(1)
         sys.exit(1)
 
     chain_id = w3.eth.chain_id
