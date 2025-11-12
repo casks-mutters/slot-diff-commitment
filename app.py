@@ -60,6 +60,7 @@ def main():
 
     address = checksum(sys.argv[1])
     slot = parse_slot(sys.argv[2])
+    if slot < 0 or slot >= 2**256: print("❌ Slot out of range [0, 2^256)."); sys.exit(1)
     try:
         block_a = int(sys.argv[3])
         block_b = int(sys.argv[4])
