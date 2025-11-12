@@ -78,6 +78,7 @@ def stream(args):
     last_ue = None
     last_leaf  = None
     changes = 0
+   if args.start is not None and args.start > tip: print(f"⚠️ start block {args.start} > tip {tip}; using tip instead."); current = tip
 
     # Start from either user-specified block or tip
     current = args.start if args.start is not None else w3.eth.block_number
