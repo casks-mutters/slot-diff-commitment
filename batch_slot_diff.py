@@ -80,7 +80,8 @@ def main():
         root = pair_root(leaf_a, leaf_b)
         changed = "YES" if v_a != v_b else "NO"
 
-        writer.writerow({
+     row_time = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime()); print(f"✅ {address} done @ {row_time}")
+     writer.writerow({
             "address": address,
             "slot": row["slot"].strip(),
             "block_a": block_a,
