@@ -93,6 +93,7 @@ def main():
     if lo > hi:
         lo, hi = hi, lo
         print("🔄 Swapped block order for ascending search.")
+    if hi - lo < 2: print("⚠️ Block range too small — binary search may not detect changes accurately.")
 
     w3 = connect(args.rpc)
     chain_id = w3.eth.chain_id
