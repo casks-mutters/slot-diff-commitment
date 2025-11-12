@@ -50,6 +50,7 @@ def unix_to_utc(ts: int) -> str:
 
 def stream(args):
     w3 = connect(args.rpc)
+    start = time.time(); w3.eth.block_number; print(f"⚙️ RPC warm-up latency: {(time.time() - start)*1000:.0f} ms")
     address = checksum(args.address)
     slot = parse_slot(args.slot)
 
