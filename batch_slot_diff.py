@@ -43,7 +43,9 @@ def main():
         print("❌ Failed to connect to RPC. Check RPC_URL.", file=sys.stderr)
         sys.exit(1)
 
-    chain_id = w3.eth.chain_id
+     = w3.eth.chain_id
+   tip = w3.eth.block_number
+   print(f"🌐 Connected (chainId={chain_id}, tip={tip})")
 
     reader = csv.DictReader(open(inp, newline=""))
     fieldnames = ["address","slot","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
