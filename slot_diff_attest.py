@@ -116,7 +116,8 @@ def main():
     leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
     root  = pair_root(leaf_a, leaf_b)
     changed = v_a != v_b
-
+    if v_a == v_b == b"\x00"*32: print("ℹ️ Both values are zero — double-check the slot index for this contract.")
+        
     att = Attestation(
         address=address,
         slot_hex=hex(slot),
