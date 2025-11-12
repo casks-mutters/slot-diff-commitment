@@ -20,6 +20,13 @@ A tiny Web3 tool that checks the soundness of a specific contract storage slot a
 python app.py <contract_address> <slot(hex|int)> <block_a> <block_b>
 Example: python app.py 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 0x0 18000000 19000000
 
+#### Examples
+- Compare a slot at two blocks:
+  `python app.py 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 0x0 18000000 19000000`
+
+- Create a signed attestation JSON:
+  `python slot_diff_attest.py 0x... 5 19000000 19100000 --sign --out attest.json`
+
 ## What it prints
 - Network name and chain ID
 - Address and slot (hex and decimal)
