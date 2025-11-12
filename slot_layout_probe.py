@@ -114,6 +114,7 @@ def main():
     w3 = connect(args.rpc)
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
+    if block_a > tip or block_b > tip: print(f"⚠️ Adjusting blocks beyond tip {tip}."); block_a = min(block_a, tip); block_b = min(block_b, tip)
     print(f"🌐 Connected: chainId={chain_id}, tip={tip}")
 
     if block_b > tip:
