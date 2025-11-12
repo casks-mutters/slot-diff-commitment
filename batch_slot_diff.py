@@ -46,6 +46,8 @@ def main():
     chain_id = w3.eth.chain_id
 
     reader = csv.DictReader(open(inp, newline=""))
+    required = {"address","slot","block_a","block_b"}
+if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must contain: {sorted(required)}"); sys.exit(2)
     fieldnames = ["address","slot","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
     writer = csv.DictWriter(sys.stdout, fieldnames=fieldnames)
     writer.writeheader()
