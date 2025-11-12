@@ -1,3 +1,7 @@
+"""Utilities for probing/inspecting slot layouts.
+
+Intentionally lightweight; importing this module has no side effects.
+"""
 # slot_layout_probe.py
 # Probe a contract's storage layout: scan a set/range of slots at two blocks,
 # report non-zero values and changes, and emit commitments + pair roots (CSV/STDOUT).
