@@ -167,6 +167,7 @@ def main():
         # light progress pulse
         if i % 64 == 0:
             print(f"… {i}/{len(slots)} slots scanned")
+        if i % 256 == 0: time.sleep(0.1)
 
     # Output
     header = ["address","chain_id","slot_dec","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
