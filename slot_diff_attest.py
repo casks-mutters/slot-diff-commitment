@@ -109,6 +109,7 @@ def main():
     try:
         v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
         v_b = w3.eth.get_storage_at(address, slot, block_identifier=block_b)
+        ba = w3.eth.get_block(block_a); bb = w3.eth.get_block(block_b); print(f"🕒 A:{time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(ba.timestamp))}  B:{time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(bb.timestamp))} UTC")
     except Exception as e:
         print(f"❌ Storage read failed: {e}"); sys.exit(2)
 
