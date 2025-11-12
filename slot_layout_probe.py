@@ -43,6 +43,7 @@ def parse_slots_arg(arg: str) -> List[int]:
             if b_i - a_i > 5000:
                 print(f"⚠️  Truncating large range {a_i}-{b_i} to 5000 slots.")
                 b_i = a_i + 5000
+            if b_i - a_i > 10_000: print(f"⚠️ Range {a_i}-{b_i} too large; limiting to first 10,000 slots."); b_i = a_i + 10_000
             slots.extend(range(a_i, b_i + 1))
         else:
             slots.append(parse_slot(chunk))
