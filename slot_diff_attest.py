@@ -152,6 +152,7 @@ def main():
         signed = Account.sign_message(msg, private_key=pk)
         att.signer_address = acct.address
         att.signature = signed.signature.hex()
+        if not Web3.is_checksum_address(att.signer_address): print("⚠️ Signer address checksum invalid — double-check key.")
         print(f"✍️  Signed by {acct.address}")
 
     with open(args.out, "w") as f:
