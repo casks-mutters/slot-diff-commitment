@@ -50,6 +50,7 @@ def unix_to_utc(ts: int) -> str:
 
 def stream(args):
     w3 = connect(args.rpc)
+    if not Web3.is_address(args.address): print("❌ Invalid address format."); sys.exit(2)
     address = checksum(args.address)
     slot = parse_slot(args.slot)
 
