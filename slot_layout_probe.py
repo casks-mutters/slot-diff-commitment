@@ -167,6 +167,9 @@ def main():
         # light progress pulse
         if i % 64 == 0:
             print(f"… {i}/{len(slots)} slots scanned")
+    if i % 128 == 0 and i > 0:
+    elapsed = time.monotonic() - t0; rate = i / max(elapsed, 1e-6); remaining = len(slots) - i
+    print(f"⏱️ ~ETA: {remaining / max(rate,1e-6):.1f}s @ {rate:.1f} slots/s")
 
     # Output
     header = ["address","chain_id","slot_dec","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
