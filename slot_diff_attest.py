@@ -105,6 +105,7 @@ def main():
         print(f"⚠️ block_b {block_b} > tip {tip}; clamping."); block_b = tip
     if not w3.eth.get_code(address):
         print("⚠️ Target has no contract code — likely an EOA (reads will be zero).")
+     if not code: print("❌ Target has no contract code (EOA)."); sys.exit(2)
 
     try:
         v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
