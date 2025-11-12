@@ -68,6 +68,7 @@ def main():
         sys.exit(1)
 
     w3 = connect(RPC_URL)
+    if not w3.eth.get_code(address): print("⚠️ Target has no contract code — likely an EOA, not a smart contract.")
     print(f"🌐 Connected to {network_name(w3.eth.chain_id)} (chainId {w3.eth.chain_id})")
 
     start = time.time()
