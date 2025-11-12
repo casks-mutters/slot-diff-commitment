@@ -1,5 +1,10 @@
 # slot-diff-commitment
 
+### Quickstart
+1. `python -m venv .venv && source .venv/bin/activate`  
+2. `pip install -U web3 eth-account`  
+3. `export RPC_URL="https://mainnet.infura.io/v3/<YOUR_KEY>"` (or another provider)
+
 ## Overview
 A tiny Web3 tool that checks the soundness of a specific contract storage slot across two block heights. It fetches the storage value at block A and block B, computes Keccak commitments (leaves) that bind (chainId, address, slot, blockNumber, value), and then produces a deterministic pair commitment (a Merkle-style root over the two leaves). This mirrors the commitment patterns used in ZK/rollup systems (e.g., Aztec-like designs) where small roots capture larger facts; verifiers can later request the corresponding leaves to validate statements about history or equality.
 
