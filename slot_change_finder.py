@@ -98,6 +98,9 @@ def main():
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected (chainId {chain_id}, tip {tip})")
+    for b in (lo, hi):
+    try: w3.eth.get_block(b)
+    except Exception as e: print(f"❌ Block {b} unavailable (archive node required?): {e}"); sys.exit(2)
 
     if hi > tip:
         print(f"⚠️ Upper bound {hi} exceeds tip {tip}; clamping to tip.")
