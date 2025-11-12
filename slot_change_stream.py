@@ -54,6 +54,7 @@ def stream(args):
     slot = parse_slot(args.slot)
 
     code = w3.eth.get_code(address)
+    if not code: print("❌ Target has no contract code (EOA)."); sys.exit(2)
     if not code:
         print("⚠️ Target has no contract code — likely an EOA.")
     chain_id = w3.eth.chain_id
