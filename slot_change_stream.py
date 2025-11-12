@@ -109,6 +109,7 @@ def stream(args):
                     changes += 1
                     root = pair_root(last_leaf, leaf)
                     print(f"⚡ CHANGE at #{current} ({unix_to_utc(blk.timestamp)} UTC)")
+                    print(f"🕒 Detected at: {time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())} UTC")
                     print(f"   prev: #{last_block} value={to_hex(last_value)} leaf={to_hex(last_leaf)}")
                     print(f"   curr: #{current} value={to_hex(val)}       leaf={to_hex(leaf)}")
                     print(f"   🌳 pair_root(prev,curr) = {root}")
