@@ -79,6 +79,7 @@ def main():
         leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
         root = pair_root(leaf_a, leaf_b)
         changed = "YES" if v_a != v_b else "NO"
+       if v_a == v_b == b"\x00"*32: print(f"ℹ️ {address} slot {slot} is zero at both blocks — check slot index.")
 
         writer.writerow({
             "address": address,
