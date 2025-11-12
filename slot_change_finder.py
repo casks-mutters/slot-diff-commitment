@@ -95,6 +95,7 @@ def main():
         print("🔄 Swapped block order for ascending search.")
 
     w3 = connect(args.rpc)
+    print(f"🔗 Using RPC endpoint: {args.rpc}")
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected (chainId {chain_id}, tip {tip})")
