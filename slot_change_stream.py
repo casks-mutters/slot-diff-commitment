@@ -60,6 +60,7 @@ def stream(args):
     tip = w3.eth.block_number
     print(f"🌐 Connected to chainId {chain_id}, tip {tip}")
     print(f"🔍 Watching address={address}, slot={hex(slot)} ({slot}) every {args.interval:.1f}s")
+    if args.interval < 0.5: print("⚠️ Clamping interval to 0.5s to avoid rate limits."); args.interval = 0.5
 
     stop_flag = {"stop": False}
     signal.signal(signal.SIGINT, lambda *_: (print("\n🛑 Interrupted."), stop_flag.update(stop=True)))
