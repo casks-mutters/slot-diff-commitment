@@ -86,6 +86,7 @@ def main():
 
     address = checksum(args.address)
     slot = parse_slot(args.slot)
+    if slot == 0: print("⚠️ Slot 0 may hold global variables — double-check if that’s intended.")
     if slot < 0 or slot >= 2**256:
         print("❌ Slot out of range [0, 2^256)."); sys.exit(2)
 
