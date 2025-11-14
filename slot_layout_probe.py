@@ -87,7 +87,10 @@ def iter_slots(args) -> Iterable[int]:
     return range(0, end + 1)
 
 def main():
-    ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
+        ap = argparse.ArgumentParser(
+        description="Probe storage slots across two blocks and emit commitments.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
