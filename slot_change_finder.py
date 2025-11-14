@@ -5,7 +5,7 @@ import time
 import argparse
 from functools import lru_cache
 from web3 import Web3
-
+__version__ = "0.1.0"
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 
 def parse_slot(s: str) -> int:
@@ -77,13 +77,21 @@ def find_first_change(w3: Web3, addr: str, slot: int, lo: int, hi: int) -> int |
 
 def main():
     ap = argparse.ArgumentParser(description="Find earliest storage slot change between two blocks (binary search).")
+        ap.add_argument(
+        "--version",
+        action="store_true",
+        help="Print version and exit",
+    )
+    args = ap.parse_args()
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or hex, e.g. 5 or 0x5)")
     ap.add_argument("start_block", type=int, help="Lower bound block (inclusive baseline)")
     ap.add_argument("end_block", type=int, help="Upper bound block (inclusive search end)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default: RPC_URL env or Infura placeholder)")
     args = ap.parse_args()
-
+  if args.version:
+        print(f"slot_change_binary_search version {__version__}")
+        return
     address = checksum(args.address)
     slot = parse_slot(args.slot)
     if slot < 0 or slot >= 2**256:
