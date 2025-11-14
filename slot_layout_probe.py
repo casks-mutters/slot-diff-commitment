@@ -7,6 +7,8 @@ from typing import Iterable, List, Tuple
 from web3 import Web3
 
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
+DEFAULT_SCAN = int(os.getenv("SLOT_PROBE_DEFAULT_SCAN", "256"))
+
 
 def checksum(addr: str) -> str:
     if not Web3.is_address(addr):
@@ -93,7 +95,12 @@ def main():
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
     ap.add_argument("--slots", help="Slots to scan: '0-255,0x100,0x200-0x20F' (default: 0..N)")
-    ap.add_argument("--default-scan", type=int, default=256, help="If --slots omitted, scan 0..N-1 (default 256)")
+      ap.add_argument(
+        "--default-scan",
+        type=int,
+        default=DEFAULT_SCAN,
+        help="If --slots omitted, scan 0..N-1",
+    )
     ap.add_argument("--only-changed", action="store_true", help="Emit only rows where value changed")
     ap.add_argument("--only-nonzero", action="store_true", help="Emit only rows where any value is non-zero")
     ap.add_argument("--csv", help="Write results to CSV (path). If omitted, print to stdout.")
