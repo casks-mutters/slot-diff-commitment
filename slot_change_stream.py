@@ -54,8 +54,8 @@ def stream(args):
     slot = parse_slot(args.slot)
 
     code = w3.eth.get_code(address)
-    if not code:
-        print("⚠️ Target has no contract code — likely an EOA.")
+    if not code and not args.include_eoa:
+        print("⚠️ Target has no contract code — likely an EOA.", file=sys.stderr)
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected to chainId {chain_id}, tip {tip}")
@@ -176,6 +176,11 @@ def main():
     ap.add_argument("--csv-all", action="store_true", help="Also log steady blocks (not only changes)")
     ap.add_argument("--max-changes", type=int, default=0, help="Stop after N changes (0 = unlimited)")
     ap.add_argument("--quiet", action="store_true", help="Suppress steady-state prints")
+        ap.add_argument(
+        "--include-eoa",
+        action="store_true",
+        help="Do not warn when target has no contract code (EOA)",
+    )
     args = ap.parse_args()
     stream(args)
 
