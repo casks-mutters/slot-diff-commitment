@@ -76,6 +76,11 @@ def now_utc() -> str:
 
 def main():
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
+        ap.add_argument(
+        "--strict-change",
+        action="store_true",
+        help="Exit with code 1 if value_a == value_b (no change)",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
@@ -159,6 +164,7 @@ def main():
     print(f"📝 Wrote attestation → {args.out}")
     print(f"🌳 Pair root: {root}")
     print(f"🔁 Changed: {'YES' if changed else 'NO'}")
-
+ if args.strict_change and not changed:
+        sys.exit(1)
 if __name__ == "__main__":
     main()
