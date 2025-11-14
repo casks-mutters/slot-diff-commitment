@@ -109,7 +109,7 @@ def main():
     if not code:
         print("⚠️ Target has no contract code — likely an EOA.")
 
-    t0 = time.time()
+    t0 = time.monotonic()
     first_change = find_first_change(w3, address, slot, lo, hi)
 
     base_val = storage_at(str(w3.provider.endpoint_uri), address, slot, lo)
@@ -148,7 +148,7 @@ def main():
         print(f"🌳 Pair root (base,change): {root12}")
         print(f"🌳 Pair root (change,end): {root23}")
 
-    print(f"\n⏱️ Elapsed: {time.time() - t0:.2f}s")
+    print(f"\n⏱️ Elapsed: {time.monotonic() - t0:.2f}s")
 
 if __name__ == "__main__":
     main()
