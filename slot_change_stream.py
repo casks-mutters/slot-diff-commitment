@@ -2,6 +2,7 @@
 import os, sys, time, csv, argparse, signal
 from typing import Optional
 from web3 import Web3
+import json
 
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 
@@ -114,6 +115,21 @@ def stream(args):
                     print(f"   prev: #{last_block} value={to_hex(last_value)} leaf={to_hex(last_leaf)}")
                     print(f"   curr: #{current} value={to_hex(val)}       leaf={to_hex(leaf)}")
                     print(f"   🌳 pair_root(prev,curr) = {root}")
+                                        if args.json_changes:
+                        obj = {
+                            "ts_utc": unix_to_utc(blk.timestamp),
+                            "block": current,
+                            "address": address,
+                            "slot_dec": slot,
+                            "slot_hex": hex(slot),
+                            "value_prev": to_hex(last_value),
+                            "value_curr": to_hex(val),
+                            "leaf_prev": to_hex(last_leaf),
+                            "leaf_curr": to_hex(leaf),
+                            "pair_root": root,
+                        }
+                        print(json.dumps(obj), file=sys.stdout)
+
                     if csv_writer:
                         csv_writer.writerow({
                             "ts_utc": unix_to_utc(blk.timestamp),
@@ -166,6 +182,11 @@ def stream(args):
 
 def main():
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
+        ap.add_argument(
+        "--json-changes",
+        action="store_true",
+        help="Also emit each change as a JSON line on stdout",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
