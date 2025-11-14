@@ -1,5 +1,10 @@
 # Produce a signed JSON attestation (optional) for a storage slot across two blocks:
 # includes slot values, two leaf commitments, and the pair root.
+"""Produce an optional signed JSON attestation for a contract storage slot.
+
+Reads a single storage slot at two blocks, computes leaf commitments and a pair
+root, and optionally signs the attestation with an EOA key.
+"""
 import os, sys, json, time, argparse
 from dataclasses import asdict, dataclass
 from typing import Optional
