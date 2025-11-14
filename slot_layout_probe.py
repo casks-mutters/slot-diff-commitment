@@ -130,7 +130,13 @@ def main():
             print(f"❌ Block {b} unavailable on this RPC (archive node required?): {e}")
             sys.exit(2)
 
-    slots = list(iter_slots(args))
+       slots = list(iter_slots(args))
+    if len(slots) == 0:
+        print("❌ No slots to scan (empty selection).", file=sys.stderr)
+        sys.exit(2)
+    if len(slots) > 10000:
+        print(f"⚠️  Scanning a large number of slots: {len(slots)}", file=sys.stderr)
+
     print(f"🔎 Scanning {len(slots)} slots from {hex(min(slots)) if slots else 'N/A'} to {hex(max(slots)) if slots else 'N/A'}")
     t0 = time.monotonic()
 
