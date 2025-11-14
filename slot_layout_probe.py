@@ -89,6 +89,11 @@ def iter_slots(args) -> Iterable[int]:
 def main():
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
     ap.add_argument("address", help="Contract address (0x...)")
+        ap.add_argument(
+        "--no-commitments",
+        action="store_true",
+        help="Skip computing leaf/pair commitments; only output values",
+    )
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
@@ -154,17 +159,23 @@ def main():
         if args.only_nonzero and not any_nonzero:
             continue
 
-        leaf_a = leaf_commitment(chain_id, address, slot, block_a, v_a)
-        leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
-        root = pair_root(leaf_a, leaf_b)
+                if args.no_commitments:
+            leaf_a = leaf_b = root = ""
+        else:
+            leaf_a = leaf_commitment(chain_id, address, slot, block_a, v_a)
+            leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
+            root = pair_root(leaf_a, leaf_b)
 
         rows.append((
             address, chain_id, slot, block_a, block_b,
-            to_hex(v_a), to_hex(v_b), to_hex(leaf_a), to_hex(leaf_b), root,
+            to_hex(v_a), to_hex(v_b),
+            to_hex(leaf_a) if leaf_a else "",
+            to_hex(leaf_b) if leaf_b else "",
+            root,
             "YES" if changed else "NO"
         ))
 
-        # light progress pulse
+ght progress pulse
         if i % 64 == 0:
             print(f"… {i}/{len(slots)} slots scanned")
 
