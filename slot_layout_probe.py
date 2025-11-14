@@ -89,6 +89,12 @@ def iter_slots(args) -> Iterable[int]:
 def main():
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
     ap.add_argument("address", help="Contract address (0x...)")
+        ap.add_argument(
+        "--progress-interval",
+        type=int,
+        default=64,
+        help="Print a progress message every N slots (0 disables)",
+    )
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
@@ -165,8 +171,9 @@ def main():
         ))
 
         # light progress pulse
-        if i % 64 == 0:
-            print(f"… {i}/{len(slots)} slots scanned")
+               if args.progress_interval > 0 and i % args.progress_interval == 0 and not args.quiet:
+            print(f"… {i}/{len(slots)} slots scanned", file=sys.stderr)
+
 
     # Output
     header = ["address","chain_id","slot_dec","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
