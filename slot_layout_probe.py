@@ -89,6 +89,12 @@ def iter_slots(args) -> Iterable[int]:
 def main():
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
     ap.add_argument("address", help="Contract address (0x...)")
+        ap.add_argument(
+        "--max-slots",
+        type=int,
+        default=20000,
+        help="Maximum number of slots allowed to scan",
+    )
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
@@ -131,6 +137,13 @@ def main():
             sys.exit(2)
 
     slots = list(iter_slots(args))
+    if len(slots) > args.max_slots:
+        print(
+            f"❌ Slot count {len(slots)} exceeds max-slots {args.max_slots}. Refusing to run.",
+            file=sys.stderr,
+        )
+        sys.exit(2)
+
     print(f"🔎 Scanning {len(slots)} slots from {hex(min(slots)) if slots else 'N/A'} to {hex(max(slots)) if slots else 'N/A'}")
     t0 = time.monotonic()
 
