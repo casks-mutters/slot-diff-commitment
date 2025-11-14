@@ -165,7 +165,10 @@ def stream(args):
     print("👋 Done.")
 
 def main():
-    ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
+       ap = argparse.ArgumentParser(
+        description="Live monitor a storage slot and emit commitment roots on change.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
