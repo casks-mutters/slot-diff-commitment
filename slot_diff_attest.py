@@ -99,7 +99,15 @@ def main():
     w3 = connect(args.rpc)
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
-    print(f"🌐 Connected chainId={chain_id}, tip={tip}")
+        t0 = time.monotonic()
+    w3 = connect(args.rpc, timeout=args.timeout)
+    chain_id = w3.eth.chain_id
+    tip = w3.eth.block_number
+    print(
+        f"🌐 Connected chainId={chain_id}, tip={tip} in {time.monotonic() - t0:.2f}s",
+        file=sys.stderr,
+    )
+
 
     if block_b > tip:
         print(f"⚠️ block_b {block_b} > tip {tip}; clamping."); block_b = tip
