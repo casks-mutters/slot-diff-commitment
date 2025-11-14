@@ -1,4 +1,9 @@
 # Live-monitor a contract storage slot; on change, emit a commitment tuple and (optionally) write a CSV row.
+"""Live-monitor an Ethereum contract storage slot.
+
+Polls a specific storage slot across new blocks, prints changes with commitments,
+and optionally appends rows to a CSV log.
+"""
 import os, sys, time, csv, argparse, signal
 from typing import Optional
 from web3 import Web3
