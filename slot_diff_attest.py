@@ -31,7 +31,8 @@ class Attestation:
     timestamp_utc: str
     rpc_url: str
     signer_address: Optional[str] = None
-    signature: Optional[str] = None
+     signature: Optional[str] = None
+    payload_hash: Optional[str] = None
     note: Optional[str] = None
 
 def checksum(addr: str) -> str:
@@ -152,6 +153,7 @@ def main():
         signed = Account.sign_message(msg, private_key=pk)
         att.signer_address = acct.address
         att.signature = signed.signature.hex()
+                att.payload_hash = Web3.keccak(payload).hex()
         print(f"✍️  Signed by {acct.address}")
 
     with open(args.out, "w") as f:
