@@ -68,9 +68,21 @@ def stream(args):
     csv_writer: Optional[csv.DictWriter] = None
     if args.csv:
         out = open(args.csv, "a", newline="")
-        csv_writer = csv.DictWriter(out, fieldnames=[
-            "ts_utc","block","ue","leaf","prev_block","prev_ue","prev_leaf","pair_root","changed"
-        ])
+              csv_writer = csv.DictWriter(
+            out,
+            fieldnames=[
+                "ts_utc",
+                "block",
+                "value",
+                "leaf",
+                "prev_block",
+                "prev_value",
+                "prev_leaf",
+                "pair_root",
+                "changed",
+            ],
+        )
+
         if args.csv_header:
             csv_writer.writeheader()
 
