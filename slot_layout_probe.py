@@ -86,7 +86,7 @@ def iter_slots(args) -> Iterable[int]:
     end = min(args.default_scan - 1, 2047)  # safety cap
     return range(0, end + 1)
 
-def main():
+def main() -> None:
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
