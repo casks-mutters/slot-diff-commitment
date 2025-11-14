@@ -88,6 +88,11 @@ def iter_slots(args) -> Iterable[int]:
 
 def main():
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
+        ap.add_argument(
+        "--skip-eoa-check",
+        action="store_true",
+        help="Do not warn when target has no contract code",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
@@ -119,9 +124,12 @@ def main():
     if block_b > tip:
         print(f"⚠️ block_b {block_b} > tip {tip}; clamping."); block_b = tip
 
-    code = w3.eth.get_code(address)
-    if not code:
-        print("⚠️ Target has no contract code (EOA?) — storage will likely read as zero.")
+      code = w3.eth.get_code(address)
+    if not code and not args.skip_eoa_check:
+        print(
+            "⚠️ Target has no contract code (EOA?) — storage will likely read as zero.",
+            file=sys.stderr,
+        )
 
     # verify both bounds exist (archive/node sanity)
     for b in (block_a, block_b):
