@@ -73,13 +73,23 @@ def to_hex(b: bytes) -> str:
 
 def now_utc() -> str:
     return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
+    
+def parse_block_arg(w3: Web3, s: str) -> int:
+    s_low = s.lower()
+    if s_low in ("latest", "finalized", "safe", "earliest", "pending"):
+        return w3.eth.get_block(s_low).number
+    try:
+        return int(s, 0)
+    except ValueError:
+        print(f"❌ Invalid block identifier: {s!r}", file=sys.stderr)
+        sys.exit(2)
 
 def main():
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
-    ap.add_argument("block_a", type=int, help="First block (inclusive)")
-    ap.add_argument("block_b", type=int, help="Second block (inclusive)")
+       ap.add_argument("block_a", help="First block (inclusive, number or tag)")
+    ap.add_argument("block_b", help="Second block (inclusive, number or tag)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (env RPC_URL)")
     ap.add_argument("--out", default=DEFAULT_OUT, help=f"Output JSON path (default: {DEFAULT_OUT})")
     ap.add_argument("--note", default="", help="Optional note embedded in attestation")
@@ -88,7 +98,9 @@ def main():
 
     address = checksum(args.address)
     slot = parse_slot(args.slot)
-    block_a, block_b = args.block_a, args.block_b
+       block_a = parse_block_arg(w3, args.block_a)
+    block_b = parse_block_arg(w3, args.block_b)
+
 
     if min(block_a, block_b) < 0:
         print("❌ Block numbers must be ≥ 0."); sys.exit(2)
