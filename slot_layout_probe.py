@@ -88,6 +88,11 @@ def iter_slots(args) -> Iterable[int]:
 
 def main():
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
+        ap.add_argument(
+        "--chain-id",
+        type=int,
+        help="Override chainId instead of using RPC's reported chainId",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
@@ -112,7 +117,14 @@ def main():
         print("🔄 Swapped block order for ascending comparison.")
 
     w3 = connect(args.rpc)
-    chain_id = w3.eth.chain_id
+       chain_id = w3.eth.chain_id
+    if args.chain_id is not None:
+        print(
+            f"ℹ️  Overriding RPC chainId {chain_id} with {args.chain_id}",
+            file=sys.stderr,
+        )
+        chain_id = args.chain_id
+
     tip = w3.eth.block_number
     print(f"🌐 Connected: chainId={chain_id}, tip={tip}")
 
