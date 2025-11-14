@@ -66,11 +66,23 @@ def stream(args):
     signal.signal(signal.SIGTERM, lambda *_: (print("\n🛑 Terminated."), stop_flag.update(stop=True)))
 
     csv_writer: Optional[csv.DictWriter] = None
+        out_file = None
     if args.csv:
-        out = open(args.csv, "a", newline="")
-        csv_writer = csv.DictWriter(out, fieldnames=[
-            "ts_utc","block","ue","leaf","prev_block","prev_ue","prev_leaf","pair_root","changed"
+        out_file = open(args.csv, "a", newline="")
+        csv_writer = csv.DictWriter(out_file, fieldnames=[
+            "ts_utc",
+            "block",
+            "value",
+            "leaf",
+            "prev_block",
+            "prev_value",
+            "prev_leaf",
+            "pair_root",
+            "changed",
         ])
+        if args.csv_header:
+            csv_writer.writeheader()
+
         if args.csv_header:
             csv_writer.writeheader()
 
@@ -156,13 +168,10 @@ def stream(args):
             break
         time.sleep(args.interval)
 
-    if csv_writer:
-        try:
-            csv_writer._dict_writer__writerows  # keep linter quiet; file close below
-        finally:
-            csv_writer.writer.writerow  # access ensures object use
-            csv_writer = None  # let GC close file
+        if out_file is not None:
+        out_file.close()
     print("👋 Done.")
+
 
 def main():
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
