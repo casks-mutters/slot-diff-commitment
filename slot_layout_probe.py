@@ -28,6 +28,8 @@ def parse_slots_arg(arg: str) -> List[int]:
       - comma list: "0,1,0x2,5"
       - range: "0-255" (inclusive)
       - mix: "0-3,0x10,25"
+            - hex range: "0x0-0xFF"
+
     """
     slots: List[int] = []
     for chunk in arg.split(","):
