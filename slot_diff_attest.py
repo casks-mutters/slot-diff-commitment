@@ -77,6 +77,11 @@ def now_utc() -> str:
 def main():
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
     ap.add_argument("address", help="Contract address (0x...)")
+        ap.add_argument(
+        "--compact",
+        action="store_true",
+        help="Write compact JSON without indentation",
+    )
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
@@ -155,7 +160,13 @@ def main():
         print(f"✍️  Signed by {acct.address}")
 
     with open(args.out, "w") as f:
-        json.dump(asdict(att), f, indent=2, sort_keys=True)
+               json.dump(
+            asdict(att),
+            f,
+            indent=None if args.compact else 2,
+            separators=(",", ":") if args.compact else None,
+            sort_keys=True,
+        )
     print(f"📝 Wrote attestation → {args.out}")
     print(f"🌳 Pair root: {root}")
     print(f"🔁 Changed: {'YES' if changed else 'NO'}")
