@@ -12,13 +12,13 @@ def parse_slot(s: str) -> int:
     return int(s, 0)  # accepts "5" or "0x5"
 
 def checksum(addr: str) -> str:
-    if not Web3.is_address(addr):
-        print("❌ Invalid Ethereum address."); sys.exit(2)
+     if not Web3.is_address(addr):
+        print("❌ Invalid Ethereum address.", file=sys.stderr); sys.exit(2)
     return Web3.to_checksum_address(addr)
 
 def connect(url: str) -> Web3:
     w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": 30}))
-    if not w3.is_connected():
+      if not w3.is_connected():
         print("❌ Failed to connect to RPC. Check RPC_URL."); sys.exit(1)
     return w3
 
