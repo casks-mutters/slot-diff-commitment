@@ -74,9 +74,9 @@ def stream(args):
         if args.csv_header:
             csv_writer.writeheader()
 
-    last_block = None
-    last_ue = None
-    last_leaf  = None
+     last_block = None
+    last_value = None
+    last_leaf = None
     changes = 0
 
     # Start from either user-specified block or tip
