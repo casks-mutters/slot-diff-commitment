@@ -75,7 +75,10 @@ def now_utc() -> str:
     return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
 
 def main():
-    ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
+     ap = argparse.ArgumentParser(
+        description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
