@@ -84,6 +84,9 @@ def stream(args):
     while not stop_flag["stop"]:
         try:
             latest = w3.eth.block_number
+                    if args.once:
+            latest = current
+
         except Exception as e:
             print(f"⚠️ Failed to read latest block: {e}")
             time.sleep(args.inter); continue
@@ -97,7 +100,8 @@ def stream(args):
         time.sleep(0.3)
         try: blk = w3.eth.get_block(current); val = get_storage_at(w3, address, slot, current)
         except Exception as e2: print(f"⚠️ Block {current} fetch error (after retry): {e2}"); break
-
+if args.once:
+            break
 
             leaf = leaf_commitment(chain_id, address, slot, current, val)
 
@@ -166,6 +170,11 @@ def stream(args):
 def main():
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
     ap.add_argument("address", help="Contract address (0x...)")
+    ap.add_argument(
+        "--once",
+        action="store_true",
+        help="Check the current block once and exit",
+    )
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
     ap.add_argument("--start", type=int, help="Start block (default: current tip)")
