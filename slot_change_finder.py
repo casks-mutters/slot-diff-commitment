@@ -76,7 +76,10 @@ def find_first_change(w3: Web3, addr: str, slot: int, lo: int, hi: int) -> int |
     return right  # first block after 'left' with value != base
 
 def main():
-    ap = argparse.ArgumentParser(description="Find earliest storage slot change between two blocks (binary search).")
+        ap = argparse.ArgumentParser(
+        description="Find earliest storage slot change between two blocks (binary search).",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or hex, e.g. 5 or 0x5)")
     ap.add_argument("start_block", type=int, help="Lower bound block (inclusive baseline)")
