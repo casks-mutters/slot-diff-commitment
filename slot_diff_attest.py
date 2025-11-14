@@ -76,6 +76,11 @@ def now_utc() -> str:
 
 def main():
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
+        ap.add_argument(
+        "--chain-id",
+        type=int,
+        help="Override the chain ID reported by the RPC",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
@@ -97,7 +102,10 @@ def main():
         print("🔄 Swapped block order for ascending comparison.")
 
     w3 = connect(args.rpc)
-    chain_id = w3.eth.chain_id
+ chain_id = w3.eth.chain_id
+    if args.chain_id is not None:
+        print(f"ℹ️  Overriding RPC chainId {chain_id} with {args.chain_id}", file=sys.stderr)
+        chain_id = args.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected chainId={chain_id}, tip={tip}")
 
