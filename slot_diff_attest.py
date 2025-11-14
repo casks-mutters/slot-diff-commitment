@@ -76,6 +76,12 @@ def now_utc() -> str:
 
 def main():
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
+        ap.add_argument(
+        "--stdout",
+        action="store_true",
+        help="Write attestation JSON to stdout instead of a file",
+    )
+
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
@@ -154,9 +160,18 @@ def main():
         att.signature = signed.signature.hex()
         print(f"✍️  Signed by {acct.address}")
 
-    with open(args.out, "w") as f:
-        json.dump(asdict(att), f, indent=2, sort_keys=True)
-    print(f"📝 Wrote attestation → {args.out}")
+     att_dict = asdict(att)
+    if args.stdout:
+        json.dump(att_dict, sys.stdout, indent=2, sort_keys=True)
+        print()  # newline
+        if not args.quiet:
+            print(f"📝 Attestation written to stdout", file=sys.stderr)
+    else:
+        with open(args.out, "w") as f:
+            json.dump(att_dict, f, indent=2, sort_keys=True)
+        if not args.quiet:
+            print(f"📝 Wrote attestation → {args.out}", file=sys.stderr)
+
     print(f"🌳 Pair root: {root}")
     print(f"🔁 Changed: {'YES' if changed else 'NO'}")
 
