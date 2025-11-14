@@ -9,7 +9,16 @@ from web3 import Web3
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 
 def parse_slot(s: str) -> int:
-    return int(s, 0)  # accepts "5" or "0x5"
+    try:
+        v = int(s, 0)  # accepts "5" or "0x5"
+    except Exception:
+        print(f"❌ Invalid slot format: {s!r} (use decimal or 0xHEX).", file=sys.stderr)
+        sys.exit(2)
+    if v < 0 or v >= 2**256:
+        print("❌ Slot out of range [0, 2^256).", file=sys.stderr)
+        sys.exit(2)
+    return v
+
 
 def checksum(addr: str) -> str:
     if not Web3.is_address(addr):
