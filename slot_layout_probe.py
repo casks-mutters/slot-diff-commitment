@@ -82,12 +82,26 @@ def to_hex(b: bytes) -> str:
 def iter_slots(args) -> Iterable[int]:
     if args.slots:
         return parse_slots_arg(args.slots)
+    if getattr(args, "slots_file", None):
+        slots: List[int] = []
+        with open(args.slots_file, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                slots.append(parse_slot(line))
+        return slots
     # default: scan a small prefix range
     end = min(args.default_scan - 1, 2047)  # safety cap
     return range(0, end + 1)
 
+
 def main():
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
+        ap.add_argument(
+        "--slots-file",
+        help="File with one slot per line (decimal or 0xHEX)",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
