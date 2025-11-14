@@ -161,11 +161,20 @@ def stream(args):
         finally:
             csv_writer.writer.writerow  # access ensures object use
             csv_writer = None  # let GC close file
+                if args.exit_on_no_change and changes == 0:
+        print("ℹ️  No changes observed during monitoring.", file=sys.stderr)
+        sys.exit(1)
+
     print("👋 Done.")
 
 def main():
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
     ap.add_argument("address", help="Contract address (0x...)")
+    ap.add_argument(
+        "--exit-on-no-change",
+        action="store_true",
+        help="Exit with code 1 if no changes were observed before stopping",
+    )
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
     ap.add_argument("--start", type=int, help="Start block (default: current tip)")
