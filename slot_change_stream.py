@@ -56,7 +56,11 @@ def stream(args):
     code = w3.eth.get_code(address)
     if not code:
         print("⚠️ Target has no contract code — likely an EOA.")
-    chain_id = w3.eth.chain_id
+        chain_id = w3.eth.chain_id
+    if args.chain_id is not None:
+        print(f"ℹ️  Overriding chainId {chain_id} with {args.chain_id}", file=sys.stderr)
+        chain_id = args.chain_id
+
     tip = w3.eth.block_number
     print(f"🌐 Connected to chainId {chain_id}, tip {tip}")
     print(f"🔍 Watching address={address}, slot={hex(slot)} ({slot}) every {args.inter:.1f}s")
@@ -166,6 +170,11 @@ def stream(args):
 def main():
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
     ap.add_argument("address", help="Contract address (0x...)")
+    ap.add_argument(
+        "--chain-id",
+        type=int,
+        help="Override chain ID instead of using RPC-reported value",
+    )
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
     ap.add_argument("--start", type=int, help="Start block (default: current tip)")
