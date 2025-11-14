@@ -158,18 +158,33 @@ def main():
         leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
         root = pair_root(leaf_a, leaf_b)
 
-        rows.append((
-            address, chain_id, slot, block_a, block_b,
+             rows.append((
+            address, chain_id, slot, hex(slot), block_a, block_b,
             to_hex(v_a), to_hex(v_b), to_hex(leaf_a), to_hex(leaf_b), root,
             "YES" if changed else "NO"
         ))
+
 
         # light progress pulse
         if i % 64 == 0:
             print(f"… {i}/{len(slots)} slots scanned")
 
     # Output
-    header = ["address","chain_id","slot_dec","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
+      header = [
+        "address",
+        "chain_id",
+        "slot_dec",
+        "slot_hex",
+        "block_a",
+        "block_b",
+        "value_a",
+        "value_b",
+        "leaf_a",
+        "leaf_b",
+        "pair_root",
+        "changed",
+    ]
+
     if args.csv:
         tmp = args.csv + ".tmp"
         with open(tmp, "w", newline="") as f:
