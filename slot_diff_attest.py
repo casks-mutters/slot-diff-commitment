@@ -72,6 +72,7 @@ def to_hex(b: bytes) -> str:
     return "0x" + b.hex()
 
 def now_utc() -> str:
+    """Return current time as a UTC timestamp string."""
     return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
 
 def main():
