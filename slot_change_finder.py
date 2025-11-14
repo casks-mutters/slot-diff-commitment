@@ -1,4 +1,9 @@
 # Find the earliest block where a storage slot changes between two block bounds (binary search).
+"""Find the earliest block where a contract storage slot changes.
+
+Performs a binary search between two block bounds, assuming the storage slot is
+piecewise-constant over the range, and emits basic commitments over endpoints.
+"""
 import os
 import sys
 import time
