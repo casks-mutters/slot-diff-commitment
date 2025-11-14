@@ -19,7 +19,8 @@ def parse_slot(s: str) -> int:
         print("❌ Slot out of range [0, 2^256)."); sys.exit(2)
     return v
 
-def connect(url: str) -> Web3:
+def connect(url: str, timeout: float = RPC_TIMEOUT) -> Web3:
+    w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": timeout}))
     w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": 20}))
     if not w3.is_connected():
         print("❌ Failed to connect to RPC. Check RPC_URL / --rpc."); sys.exit(1)
@@ -49,7 +50,7 @@ def unix_to_utc(ts: int) -> str:
     return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(int(ts)))
 
 def stream(args):
-    w3 = connect(args.rpc)
+    w3 = connect(args.rpc, timeout=args.timeout)
     address = checksum(args.address)
     slot = parse_slot(args.slot)
 
@@ -167,6 +168,12 @@ def stream(args):
 def main():
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
     ap.add_argument("address", help="Contract address (0x...)")
+        ap.add_argument(
+        "--timeout",
+        type=float,
+        default=RPC_TIMEOUT,
+        help="RPC HTTP timeout in seconds",
+    )
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
     ap.add_argument("--start", type=int, help="Start block (default: current tip)")
