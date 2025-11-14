@@ -92,7 +92,10 @@ def main():
     lo, hi = args.start_block, args.end_block
     if lo > hi:
         lo, hi = hi, lo
-        print("🔄 Swapped block order for ascending search.")
+        print("🔄 Swapped block order for ascending search.", file=sys.stderr)
+    if lo < 0:
+        print("❌ start_block must be ≥ 0.", file=sys.stderr)
+        sys.exit(2)
 
     w3 = connect(args.rpc)
     chain_id = w3.eth.chain_id
