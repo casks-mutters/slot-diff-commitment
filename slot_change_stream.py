@@ -99,11 +99,13 @@ def stream(args):
         except Exception as e2: print(f"⚠️ Block {current} fetch error (after retry): {e2}"); break
 
 
-            leaf = leaf_commitment(chain_id, address, slot, current, val)
+                    leaf = None if args.no_commitments else leaf_commitment(chain_id, address, slot, current, val)
+
 
             # First observation
             if last_block is None:
-                print(f"📦 @#{current} ({unix_to_utc(blk.timestamp)} UTC) value={to_hex(val)} leaf={to_hex(leaf)}")
+                               leaf_text = to_hex(leaf) if leaf is not None else "<skipped>"
+                print(f"📦 @#{current} ({unix_to_utc(blk.timestamp)} UTC) value={to_hex(val)} leaf={leaf_text}")
                 last_block, last_value, last_leaf = current, val, leaf
             else:
                 if val != last_value:
@@ -165,6 +167,11 @@ def stream(args):
 
 def main():
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
+    ap.add_argument(
+        "--no-commitments",
+        action="store_true",
+        help="Skip computing leaf and pair_root, only track raw values",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
