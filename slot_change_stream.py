@@ -52,6 +52,7 @@ def stream(args):
     w3 = connect(args.rpc)
     address = checksum(args.address)
     slot = parse_slot(args.slot)
+    print(f"🕒 Monitor started at {unix_to_utc(time.time())} UTC", file=sys.stderr)
 
     code = w3.eth.get_code(address)
     if not code:
