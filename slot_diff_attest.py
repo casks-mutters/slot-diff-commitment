@@ -4,7 +4,7 @@ import os, sys, json, time, argparse
 from dataclasses import asdict, dataclass
 from typing import Optional
 from web3 import Web3
-
+__version__ = "0.1.0"
 try:
     from eth_account import Account
     from eth_account.messages import encode_defunct
@@ -84,8 +84,15 @@ def main():
     ap.add_argument("--out", default=DEFAULT_OUT, help=f"Output JSON path (default: {DEFAULT_OUT})")
     ap.add_argument("--note", default="", help="Optional note embedded in attestation")
     ap.add_argument("--sign", action="store_true", help="Sign with PRIVATE_KEY (EIP-191 personal_sign)")
+        ap.add_argument(
+        "--version",
+        action="store_true",
+        help="Print version and exit",
+    )
     args = ap.parse_args()
-
+  if args.version:
+        print(f"slot_diff_attestation version {__version__}")
+        return
     address = checksum(args.address)
     slot = parse_slot(args.slot)
     block_a, block_b = args.block_a, args.block_b
