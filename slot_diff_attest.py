@@ -134,6 +134,10 @@ def main():
         rpc_url=args.rpc,
         note=args.note or None,
     )
+    att_dict = asdict(att)
+    if not att.signature:
+        att_dict.pop("signature", None)
+        att_dict.pop("signer_address", None)
 
     if args.sign:
         if Account is None:
