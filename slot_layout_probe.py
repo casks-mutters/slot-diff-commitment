@@ -1,7 +1,7 @@
 # slot_layout_probe.py
 # Probe a contract's storage layout: scan a set/range of slots at two blocks,
 # report non-zero values and changes, and emit commitments + pair roots (CSV/STDOUT).
-
+import json
 import os, sys, csv, time, argparse
 from typing import Iterable, List, Tuple
 from web3 import Web3
@@ -98,6 +98,11 @@ def main():
     ap.add_argument("--only-nonzero", action="store_true", help="Emit only rows where any value is non-zero")
     ap.add_argument("--csv", help="Write results to CSV (path). If omitted, print to stdout.")
     ap.add_argument("--no-header", action="store_true", help="Do not write CSV header")
+        ap.add_argument(
+        "--json-summary",
+        action="store_true",
+        help="Print a JSON summary (to stdout) after CSV/text output",
+    )
     args = ap.parse_args()
 
     if "your_api_key" in args.rpc:
@@ -163,6 +168,11 @@ def main():
             to_hex(v_a), to_hex(v_b), to_hex(leaf_a), to_hex(leaf_b), root,
             "YES" if changed else "NO"
         ))
+    changed_count = sum(1 for r in rows if r[-1] == "YES")
+    nonzero_count = sum(
+        1 for r in rows
+        if r[6] != "0x" + "00"*32 or r[7] != "0x" + "00"*32
+    )
 
         # light progress pulse
         if i % 64 == 0:
@@ -184,6 +194,18 @@ def main():
             print(",".join(header))
         for r in rows:
             print(",".join(map(str, r)))
+    if args.json_summary:
+        summary = {
+            "address": address,
+            "chainId": int(chain_id),
+            "blockA": block_a,
+            "blockB": block_b,
+            "slotCount": len(slots),
+            "rowCount": len(rows),
+            "changedCount": changed_count,
+            "nonzeroCount": nonzero_count,
+        }
+        print(json.dumps(summary, indent=2), file=sys.stdout)
 
     print(f"⏱️ Elapsed: {time.monotonic() - t0:.2f}s")
 
