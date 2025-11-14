@@ -76,6 +76,11 @@ def now_utc() -> str:
 
 def main():
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
+        ap.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Suppress informational logs (errors still printed)",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
@@ -94,7 +99,9 @@ def main():
         print("❌ Block numbers must be ≥ 0."); sys.exit(2)
     if block_a > block_b:
         block_a, block_b = block_b, block_a
-        print("🔄 Swapped block order for ascending comparison.")
+          if not args.quiet:
+        print("🔄 Swapped block order for ascending comparison.", file=sys.stderr)
+
 
     w3 = connect(args.rpc)
     chain_id = w3.eth.chain_id
