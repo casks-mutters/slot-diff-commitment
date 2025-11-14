@@ -61,9 +61,15 @@ def stream(args):
     print(f"🌐 Connected to chainId {chain_id}, tip {tip}")
     print(f"🔍 Watching address={address}, slot={hex(slot)} ({slot}) every {args.inter:.1f}s")
 
-    stop_flag = {"stop": False}
-    signal.signal(signal.SIGINT, lambda *_: (print("\n🛑 Interrupted."), stop_flag.update(stop=True)))
-    signal.signal(signal.SIGTERM, lambda *_: (print("\n🛑 Terminated."), stop_flag.update(stop=True)))
+       stop_flag = {"stop": False}
+    signal.signal(
+        signal.SIGINT,
+        lambda *_: (print("\n🛑 Interrupted."), stop_flag.__setitem__("stop", True)),
+    )
+    signal.signal(
+        signal.SIGTERM,
+        lambda *_: (print("\n🛑 Terminated."), stop_flag.__setitem__("stop", True)),
+    )
 
     csv_writer: Optional[csv.DictWriter] = None
      if args.csv:
