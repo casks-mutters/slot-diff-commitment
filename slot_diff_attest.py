@@ -154,7 +154,7 @@ def main():
         att.signature = signed.signature.hex()
         print(f"✍️  Signed by {acct.address}")
 
-    with open(args.out, "w") as f:
+       with open(args.out, "w", encoding="utf-8") as f:
         json.dump(asdict(att), f, indent=2, sort_keys=True)
     print(f"📝 Wrote attestation → {args.out}")
     print(f"🌳 Pair root: {root}")
