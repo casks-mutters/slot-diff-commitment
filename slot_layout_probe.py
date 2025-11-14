@@ -1,7 +1,11 @@
 # slot_layout_probe.py
 # Probe a contract's storage layout: scan a set/range of slots at two blocks,
 # report non-zero values and changes, and emit commitments + pair roots (CSV/STDOUT).
+"""Probe an Ethereum contract's storage layout across two blocks.
 
+Scans selected storage slots at two block heights, reports non-zero values
+and changes, and emits per-slot commitments and pair roots.
+"""
 import os, sys, csv, time, argparse
 from typing import Iterable, List, Tuple
 from web3 import Web3
