@@ -81,7 +81,7 @@ def main():
     ap.add_argument("slot", help="Storage slot (decimal or hex, e.g. 5 or 0x5)")
     ap.add_argument("start_block", type=int, help="Lower bound block (inclusive baseline)")
     ap.add_argument("end_block", type=int, help="Upper bound block (inclusive search end)")
-    ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default: RPC_URL env or Infura placeholder)")
+    ap.add_argument("-r", "--rpc", default=RPC_URL, help="RPC URL (default: RPC_URL env or Infura placeholder)")
     args = ap.parse_args()
 
     address = checksum(args.address)
