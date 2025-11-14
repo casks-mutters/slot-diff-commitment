@@ -2,6 +2,7 @@
 import os, sys, time, csv, argparse, signal
 from typing import Optional
 from web3 import Web3
+__version__ = "0.1.0"
 
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 
@@ -165,6 +166,15 @@ def stream(args):
 
 def main():
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
+        ap.add_argument(
+        "--version",
+        action="store_true",
+        help="Print version and exit",
+    )
+    if args.version:
+        print(f"slot_live_monitor version {__version__}")
+        return
+    args = ap.parse_args()
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
