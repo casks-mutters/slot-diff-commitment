@@ -91,13 +91,20 @@ def main():
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
-    ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
-    ap.add_argument("--slots", help="Slots to scan: '0-255,0x100,0x200-0x20F' (default: 0..N)")
-    ap.add_argument("--default-scan", type=int, default=256, help="If --slots omitted, scan 0..N-1 (default 256)")
+    ap.add_argument("-r", "--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
+    ap.add_argument("-s", "--slots", help="Slots to scan: '0-255,0x100,0x200-0x20F' (default: 0..N)")
+    ap.add_argument(
+        "-n",
+        "--default-scan",
+        type=int,
+        default=256,
+        help="If --slots omitted, scan 0..N-1",
+    )
     ap.add_argument("--only-changed", action="store_true", help="Emit only rows where value changed")
     ap.add_argument("--only-nonzero", action="store_true", help="Emit only rows where any value is non-zero")
-    ap.add_argument("--csv", help="Write results to CSV (path). If omitted, print to stdout.")
+    ap.add_argument("-o", "--csv", help="Write results to CSV (path). If omitted, print to stdout.")
     ap.add_argument("--no-header", action="store_true", help="Do not write CSV header")
+
     args = ap.parse_args()
 
     if "your_api_key" in args.rpc:
