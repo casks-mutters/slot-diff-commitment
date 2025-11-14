@@ -42,8 +42,9 @@ def checksum(addr: str) -> str:
 def parse_slot(s: str) -> int:
     try:
         v = int(s, 0)  # decimal or 0xHEX
-    except Exception:
-        print("❌ Invalid slot format (use decimal or 0xHEX)."); sys.exit(2)
+        except Exception:
+        print(f"❌ Invalid slot format: {s!r} (use decimal or 0xHEX).", file=sys.stderr)
+        sys.exit(2)
     if v < 0 or v >= 2**256:
         print("❌ Slot out of range [0, 2^256)."); sys.exit(2)
     return v
