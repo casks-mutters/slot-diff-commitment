@@ -48,8 +48,8 @@ def parse_slot(s: str) -> int:
         print("❌ Slot out of range [0, 2^256)."); sys.exit(2)
     return v
 
-def connect(url: str) -> Web3:
-    w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": 20}))
+def connect(url: str, timeout: float = RPC_TIMEOUT) -> Web3:
+    w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": timeout}))
     if not w3.is_connected():
         print("❌ Failed to connect to RPC."); sys.exit(1)
     return w3
@@ -76,6 +76,12 @@ def now_utc() -> str:
 
 def main():
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
+        ap.add_argument(
+        "--timeout",
+        type=float,
+        default=RPC_TIMEOUT,
+        help="RPC HTTP timeout in seconds",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
@@ -96,7 +102,7 @@ def main():
         block_a, block_b = block_b, block_a
         print("🔄 Swapped block order for ascending comparison.")
 
-    w3 = connect(args.rpc)
+       w3 = connect(args.rpc, timeout=args.timeout)
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected chainId={chain_id}, tip={tip}")
