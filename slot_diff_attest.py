@@ -16,6 +16,7 @@ DEFAULT_OUT = "slot_diff_attestation.json"
 
 @dataclass
 class Attestation:
+    
     address: str
     slot_hex: str
     slot_dec: int
@@ -76,6 +77,10 @@ def now_utc() -> str:
 
 def main():
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
+        ap.add_argument(
+        "--note-file",
+        help="Path to a file whose contents will be used as the note",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
@@ -85,6 +90,10 @@ def main():
     ap.add_argument("--note", default="", help="Optional note embedded in attestation")
     ap.add_argument("--sign", action="store_true", help="Sign with PRIVATE_KEY (EIP-191 personal_sign)")
     args = ap.parse_args()
+    note = args.note
+    if args.note_file:
+        with open(args.note_file, "r", encoding="utf-8") as nf:
+            note = nf.read().strip()
 
     address = checksum(args.address)
     slot = parse_slot(args.slot)
@@ -132,7 +141,7 @@ def main():
         changed=changed,
         timestamp_utc=now_utc(),
         rpc_url=args.rpc,
-        note=args.note or None,
+          note=note or None,
     )
 
     if args.sign:
