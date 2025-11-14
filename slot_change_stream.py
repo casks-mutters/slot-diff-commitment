@@ -7,14 +7,15 @@ RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 
 def checksum(addr: str) -> str:
     if not Web3.is_address(addr):
-        print("❌ Invalid Ethereum address."); sys.exit(2)
+               print("❌ Invalid Ethereum address.", file=sys.stderr); sys.exit(2)
+
     return Web3.to_checksum_address(addr)
 
 def parse_slot(s: str) -> int:
     try:
         v = int(s, 0)  # accepts decimal or hex like 0x5
     except Exception:
-        print("❌ Invalid slot format (use decimal or 0xHEX)."); sys.exit(2)
+              print("❌ Invalid slot format (use decimal or 0xHEX)."); sys.exit(2)
     if v < 0 or v >= 2**256:
         print("❌ Slot out of range [0, 2^256)."); sys.exit(2)
     return v
