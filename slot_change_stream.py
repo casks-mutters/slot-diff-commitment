@@ -59,7 +59,8 @@ def stream(args):
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected to chainId {chain_id}, tip {tip}")
-    print(f"🔍 Watching address={address}, slot={hex(slot)} ({slot}) every {args.inter:.1f}s")
+        label = f" ({args.label})" if getattr(args, "label", None) else ""
+    print(f"🔍 Watching address={address}{label}, slot={hex(slot)} ({slot}) every {args.interval:.1f}s", file=sys.stderr)
 
     stop_flag = {"stop": False}
     signal.signal(signal.SIGINT, lambda *_: (print("\n🛑 Interrupted."), stop_flag.update(stop=True)))
@@ -165,6 +166,10 @@ def stream(args):
 
 def main():
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
+    ap.add_argument(
+        "--label",
+        help="Optional label for the monitored contract (for logs)",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
