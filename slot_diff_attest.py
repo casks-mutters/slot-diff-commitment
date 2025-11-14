@@ -16,6 +16,7 @@ DEFAULT_OUT = "slot_diff_attestation.json"
 
 @dataclass
 class Attestation:
+    version: str
     address: str
     slot_hex: str
     slot_dec: int
@@ -33,6 +34,7 @@ class Attestation:
     signer_address: Optional[str] = None
     signature: Optional[str] = None
     note: Optional[str] = None
+
 
 def checksum(addr: str) -> str:
     if not Web3.is_address(addr):
@@ -117,7 +119,8 @@ def main():
     root  = pair_root(leaf_a, leaf_b)
     changed = v_a != v_b
 
-    att = Attestation(
+      att = Attestation(
+        version="1",
         address=address,
         slot_hex=hex(slot),
         slot_dec=slot,
