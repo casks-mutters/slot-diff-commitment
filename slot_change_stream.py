@@ -66,12 +66,11 @@ def stream(args):
     signal.signal(signal.SIGTERM, lambda *_: (print("\n🛑 Terminated."), stop_flag.update(stop=True)))
 
     csv_writer: Optional[csv.DictWriter] = None
-    if args.csv:
-        out = open(args.csv, "a", newline="")
-        csv_writer = csv.DictWriter(out, fieldnames=[
-            "ts_utc","block","ue","leaf","prev_block","prev_ue","prev_leaf","pair_root","changed"
-        ])
-        if args.csv_header:
+     if args.csv:
+        file_exists = os.path.exists(args.csv) and os.path.getsize(args.csv) > 0
+        out_file = open(args.csv, "a", newline="")
+        csv_writer = csv.DictWriter(out_file, fieldnames=[...])
+        if args.csv_header and not file_exists:
             csv_writer.writeheader()
 
     last_block = None
