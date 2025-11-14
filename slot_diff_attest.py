@@ -77,6 +77,11 @@ def now_utc() -> str:
 def main():
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
     ap.add_argument("address", help="Contract address (0x...)")
+        ap.add_argument(
+        "--include-eoa",
+        action="store_true",
+        help="Do not warn when target has no contract code (EOA)",
+    )
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
@@ -103,8 +108,11 @@ def main():
 
     if block_b > tip:
         print(f"⚠️ block_b {block_b} > tip {tip}; clamping."); block_b = tip
-    if not w3.eth.get_code(address):
-        print("⚠️ Target has no contract code — likely an EOA (reads will be zero).")
+      if not w3.eth.get_code(address) and not args.include_eoa:
+        print(
+            "⚠️ Target has no contract code — likely an EOA (reads will be zero).",
+            file=sys.stderr,
+        )
 
     try:
         v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
