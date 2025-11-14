@@ -100,6 +100,15 @@ def main():
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected chainId={chain_id}, tip={tip}")
+    # sanity-check that the older block exists (archive node)
+    try:
+        w3.eth.get_block(block_a)
+        w3.eth.get_block(block_b)
+    except Exception as e:
+        print(
+            f"⚠️  One of the target blocks may be unavailable on this RPC (archive node required?): {e}",
+            file=sys.stderr,
+        )
 
     if block_b > tip:
         print(f"⚠️ block_b {block_b} > tip {tip}; clamping."); block_b = tip
