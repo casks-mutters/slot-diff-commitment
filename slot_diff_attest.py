@@ -68,14 +68,21 @@ def pair_root(a: bytes, b: bytes) -> str:
     x, y = (a, b) if a < b else (b, a)
     return "0x" + Web3.keccak(x + y).hex()
 
-def to_hex(b: bytes) -> str:
-    return "0x" + b.hex()
+def to_hex(b: bytes, prefix: bool = True) -> str:
+    h = b.hex()
+    return "0x" + h if prefix else h
 
 def now_utc() -> str:
     return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
 
 def main():
+    
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
+        ap.add_argument(
+        "--no-0x",
+        action="store_true",
+        help="Emit hex fields without 0x prefix",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
@@ -116,7 +123,7 @@ def main():
     leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
     root  = pair_root(leaf_a, leaf_b)
     changed = v_a != v_b
-
+  prefix = not args.no_0x
     att = Attestation(
         address=address,
         slot_hex=hex(slot),
@@ -124,11 +131,12 @@ def main():
         chain_id=chain_id,
         block_a=block_a,
         block_b=block_b,
-        value_a=to_hex(v_a),
-        value_b=to_hex(v_b),
-        leaf_a=to_hex(leaf_a),
-        leaf_b=to_hex(leaf_b),
-        pair_root=root,
+               value_a=to_hex(v_a, prefix),
+        value_b=to_hex(v_b, prefix),
+        leaf_a=to_hex(leaf_a, prefix),
+        leaf_b=to_hex(leaf_b, prefix),
+        pair_root=root if prefix else root[2:],
+
         changed=changed,
         timestamp_utc=now_utc(),
         rpc_url=args.rpc,
