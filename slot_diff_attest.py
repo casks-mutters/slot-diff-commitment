@@ -12,7 +12,7 @@ except Exception:
     Account = None  # signing remains optional
 
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
-DEFAULT_OUT = "slot_diff_attestation.json"
+DEFAULT_OUT = os.getenv("SLOT_ATTEST_OUT", "slot_diff_attestation.json")
 
 @dataclass
 class Attestation:
