@@ -76,8 +76,11 @@ def pair_root(a: bytes, b: bytes) -> str:
     x, y = (a, b) if a < b else (b, a)
     return "0x" + Web3.keccak(x + y).hex()
 
-def to_hex(b: bytes) -> str:
-    return "0x" + b.hex()
+def to_hex(b: bytes, prefix: bool = True) -> str:
+    h = b.hex()
+    return ("0x" + h) if prefix else h
+
+
 
 def iter_slots(args) -> Iterable[int]:
     if args.slots:
@@ -98,6 +101,12 @@ def main():
     ap.add_argument("--only-nonzero", action="store_true", help="Emit only rows where any value is non-zero")
     ap.add_argument("--csv", help="Write results to CSV (path). If omitted, print to stdout.")
     ap.add_argument("--no-header", action="store_true", help="Do not write CSV header")
+        ap.add_argument(
+        "--no-0x",
+        action="store_true",
+        help="Emit hex values without 0x prefix",
+    )
+
     args = ap.parse_args()
 
     if "your_api_key" in args.rpc:
@@ -158,9 +167,12 @@ def main():
         leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
         root = pair_root(leaf_a, leaf_b)
 
+      hex_prefix = not args.no_0x
         rows.append((
-            address, chain_id, slot, block_a, block_b,
-            to_hex(v_a), to_hex(v_b), to_hex(leaf_a), to_hex(leaf_b), root,
+            address, chain_id, slot, hex(slot), block_a, block_b,
+            to_hex(v_a, hex_prefix), to_hex(v_b, hex_prefix),
+            to_hex(leaf_a, hex_prefix), to_hex(leaf_b, hex_prefix),
+            root if hex_prefix else root[2:],  # strip 0x if requested
             "YES" if changed else "NO"
         ))
 
