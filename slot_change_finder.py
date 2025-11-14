@@ -7,6 +7,7 @@ from functools import lru_cache
 from web3 import Web3
 
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
+RPC_TIMEOUT = float(os.getenv("RPC_TIMEOUT", "30"))
 
 def parse_slot(s: str) -> int:
     return int(s, 0)  # accepts "5" or "0x5"
@@ -25,7 +26,7 @@ def connect(url: str) -> Web3:
 @lru_cache(maxsize=8192)
 def storage_at(w3_provider_uri: str, address: str, slot: int, block_number: int) -> bytes:
     # cache key uses provider URI string via decorator arg; w3 constructed per call to avoid unhashable
-    w3 = Web3(Web3.HTTPProvider(w3_provider_uri, request_kwargs={"timeout": 30}))
+      w3 = Web3(Web3.HTTPProvider(w3_provider_uri, request_kwargs={"timeout": RPC_TIMEOUT}))
     return w3.eth.get_storage_at(address, slot, block_identifier=block_number)
 
 def leaf_commitment(chain_id: int, address: str, slot: int, block_number: int, value: bytes) -> bytes:
