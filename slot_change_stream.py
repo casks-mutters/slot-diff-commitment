@@ -47,6 +47,14 @@ def to_hex(b: bytes) -> str:
 
 def unix_to_utc(ts: int) -> str:
     return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(int(ts)))
+        processed = 0
+        while current <= latest and not stop_flag["stop"]:
+            if args.max_blocks and processed >= args.max_blocks:
+                print(f"ℹ️  Max blocks reached ({args.max_blocks}); stopping.", file=sys.stderr)
+                stop_flag["stop"] = True
+                break
+            processed += 1
+            ...
 
 def stream(args):
     w3 = connect(args.rpc)
@@ -166,6 +174,12 @@ def stream(args):
 
 def main():
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
+        ap.add_argument(
+        "--max-blocks",
+        type=int,
+        default=0,
+        help="Optional cap on how many blocks to process (0 = unlimited)",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
