@@ -88,6 +88,11 @@ def iter_slots(args) -> Iterable[int]:
 
 def main():
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
+        ap.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Suppress progress and info logs (except errors)",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
@@ -100,8 +105,8 @@ def main():
     ap.add_argument("--no-header", action="store_true", help="Do not write CSV header")
     args = ap.parse_args()
 
-    if "your_api_key" in args.rpc:
-        print("⚠️ RPC_URL still uses Infura placeholder — replace with a real key.")
+      if "your_api_key" in args.rpc and not args.quiet:
+        print("⚠️ RPC_URL still uses Infura placeholder — replace with a real key.", file=sys.stderr)
 
     address = checksum(args.address)
     block_a, block_b = args.block_a, args.block_b
