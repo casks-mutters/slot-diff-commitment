@@ -5,7 +5,7 @@
 import os, sys, csv, time, argparse
 from typing import Iterable, List, Tuple
 from web3 import Web3
-
+__version__ = "0.1.0"
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 
 def checksum(addr: str) -> str:
@@ -98,7 +98,15 @@ def main():
     ap.add_argument("--only-nonzero", action="store_true", help="Emit only rows where any value is non-zero")
     ap.add_argument("--csv", help="Write results to CSV (path). If omitted, print to stdout.")
     ap.add_argument("--no-header", action="store_true", help="Do not write CSV header")
+        ap.add_argument(
+        "--version",
+        action="store_true",
+        help="Print version and exit",
+    )
     args = ap.parse_args()
+    if args.version:
+        print(f"slot_layout_probe version {__version__}")
+        return
 
     if "your_api_key" in args.rpc:
         print("⚠️ RPC_URL still uses Infura placeholder — replace with a real key.")
