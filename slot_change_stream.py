@@ -59,7 +59,7 @@ def stream(args):
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected to chainId {chain_id}, tip {tip}")
-    print(f"🔍 Watching address={address}, slot={hex(slot)} ({slot}) every {args.inter:.1f}s")
+        print(f"🔍 Watching address={address}, slot={hex(slot)} ({slot}) every {args.interval:.1f}s")
 
     stop_flag = {"stop": False}
     signal.signal(signal.SIGINT, lambda *_: (print("\n🛑 Interrupted."), stop_flag.update(stop=True)))
@@ -85,8 +85,9 @@ def stream(args):
         try:
             latest = w3.eth.block_number
         except Exception as e:
-            print(f"⚠️ Failed to read latest block: {e}")
-            time.sleep(args.inter); continue
+       print(f"⚠️ Failed to read latest block: {e}", file=sys.stderr)
+            time.sleep(args.interval)
+            continue
 
         # progress through new blocks up to latest
         while current <= latest and not stop_flag["stop"]:
