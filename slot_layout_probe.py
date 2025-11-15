@@ -85,12 +85,22 @@ def iter_slots(args) -> Iterable[int]:
     # default: scan a small prefix range
     end = min(args.default_scan - 1, 2047)  # safety cap
     return range(0, end + 1)
+    
+def parse_block_arg(w3: Web3, s: str) -> int:
+    s_low = s.lower()
+    if s_low in ("latest", "finalized", "safe", "earliest", "pending"):
+        return w3.eth.get_block(s_low).number
+    try:
+        return int(s, 0)
+    except ValueError:
+        print(f"❌ Invalid block identifier: {s}", file=sys.stderr)
+        sys.exit(2)
 
 def main():
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
     ap.add_argument("address", help="Contract address (0x...)")
-    ap.add_argument("block_a", type=int, help="First block (inclusive)")
-    ap.add_argument("block_b", type=int, help="Second block (inclusive)")
+      ap.add_argument("block_a", help="First block (inclusive, number or tag)")
+    ap.add_argument("block_b", help="Second block (inclusive, number or tag)")
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
     ap.add_argument("--slots", help="Slots to scan: '0-255,0x100,0x200-0x20F' (default: 0..N)")
     ap.add_argument("--default-scan", type=int, default=256, help="If --slots omitted, scan 0..N-1 (default 256)")
@@ -104,7 +114,8 @@ def main():
         print("⚠️ RPC_URL still uses Infura placeholder — replace with a real key.")
 
     address = checksum(args.address)
-    block_a, block_b = args.block_a, args.block_b
+       block_a = parse_block_arg(w3, args.block_a)
+    block_b = parse_block_arg(w3, args.block_b)
     if min(block_a, block_b) < 0:
         print("❌ Block numbers must be ≥ 0."); sys.exit(2)
     if block_a > block_b:
