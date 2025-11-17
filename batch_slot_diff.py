@@ -75,15 +75,18 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
         code = w3.eth.get_code(address)
         if not code: print("⚠️ Target address has no contract code (likely EOA) — storage slot results may be misleading.")
 
-        try:
+                try:
             tip = w3.eth.block_number
-            if block_a > tip or block_b > tip: print(f"⚠️ {address}: requested block beyond tip {tip}"); continue
+            if block_a > tip or block_b > tip:
+                print(f"⚠️ {address}: requested block beyond tip {tip}", file=sys.stderr)
+                continue
+
             v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
             v_b = w3.eth.get_storage_at(address, slot, block_identifier=block_b)
-            tip = w3.eth.block_number;  if block_a > tip or block_b > tip: print(f"⚠️ {address}: requested block > tip {tip}"); continue
         except Exception as e:
             print(f"⚠️  RPC error on {address} slot {slot}: {e}", file=sys.stderr)
             continue
+
             
         if v_a is None or v_b is None: print(f"⚠️ Missing storage data for {address}"); continue
         leaf_a = leaf_commitment(chain_id, address, slot, block_a, v_a)
