@@ -242,13 +242,20 @@ except Exception as e:
     print(f"⏱️ ~ETA: {remaining / max(rate,1e-6):.1f}s @ {rate:.1f} slots/s")
 
     # Output
-       full_header = ["address","chain_id","slot_dec","slot_hex","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
-             if args.pair_root_only:
-                for r in rows:
-                    minimal = [r[0], r[2], r[3], r[4], r[5], r[10]]  # adjust indices per your layout
-                    w.writerow(minimal)
-            else:
-                w.writerows(rows)
+    header = [
+        "address",
+        "chain_id",
+        "slot_dec",
+        "slot_hex",
+        "block_a",
+        "block_b",
+        "value_a",
+        "value_b",
+        "leaf_a",
+        "leaf_b",
+        "pair_root",
+        "changed",
+    ]
 
     if args.csv:
         tmp = args.csv + ".tmp"
@@ -264,6 +271,7 @@ except Exception as e:
             print(",".join(header))
         for r in rows:
             print(",".join(map(str, r)))
+
 
     print(f"⏱️ Elapsed: {time.monotonic() - t0:.2f}s")
 
