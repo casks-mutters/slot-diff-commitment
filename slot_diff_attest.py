@@ -92,7 +92,7 @@ def now_utc() -> str:
     """Return current time as a UTC timestamp string."""
     return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
 
-def main():
+def main() -> None:
     ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
         ap.add_argument(
         "--stdout",
