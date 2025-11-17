@@ -80,6 +80,7 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
             if block_a > tip or block_b > tip: print(f"⚠️ {address}: requested block beyond tip {tip}"); continue
             v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
             v_b = w3.eth.get_storage_at(address, slot, block_identifier=block_b)
+            tip = w3.eth.block_number;  if block_a > tip or block_b > tip: print(f"⚠️ {address}: requested block > tip {tip}"); continue
         except Exception as e:
             print(f"⚠️  RPC error on {address} slot {slot}: {e}", file=sys.stderr)
             continue
