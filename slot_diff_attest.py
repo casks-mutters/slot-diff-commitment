@@ -106,6 +106,11 @@ def main() -> None:
     )
 
     ap.add_argument("address", help="Contract address (0x...)")
+        ap.add_argument(
+        "--summary",
+        action="store_true",
+        help="Print a one-line human-readable summary at the end",
+    )
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
     ap.add_argument("block_b", type=int, help="Second block (inclusive)")
@@ -213,6 +218,12 @@ if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeh
 
     print(f"🌳 Pair root: {root}")
     print(f"🔁 Changed: {'YES' if changed else 'NO'}")
+    if args.summary and not args.quiet:
+        print(
+            f"[summary] {address} slot={hex(slot)} "
+            f"blocks {block_a}->{block_b} changed={'YES' if changed else 'NO'}",
+            file=sys.stderr,
+        )
 
 if __name__ == "__main__":
     main()
