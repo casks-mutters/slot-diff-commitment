@@ -12,14 +12,20 @@ def parse_slot(s: str) -> int:
     return int(s, 0)  # accepts "5" or "0x5"
 
 def leaf_commitment(chain_id: int, address: str, slot: int, block_number: int, value: bytes) -> bytes:
+    addr_hex = address[2:]
+    if len(addr_hex) != 40:
+        print(f"❌ Unexpected address length for {address}", file=sys.stderr)
+        sys.exit(2)
+
     payload = (
         chain_id.to_bytes(8, "big")
-        + bytes.fromhex(address[2:])
+        + bytes.fromhex(addr_hex)
         + slot.to_bytes(32, "big")
         + block_number.to_bytes(8, "big")
         + value.rjust(32, b"\x00")
     )
     return Web3.keccak(payload)
+
 
 def pair_root(a: bytes, b: bytes) -> str:
     first, second = (a, b) if a < b else (b, a)
