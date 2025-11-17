@@ -106,6 +106,11 @@ def iter_slots(args) -> Iterable[int]:
 
 def main():
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
+        ap.add_argument(
+        "--pair-root-only",
+        action="store_true",
+        help="Emit only address, slot, block_a, block_b and pair_root columns",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
         ap.add_argument(
         "--max-slots",
@@ -225,7 +230,14 @@ except Exception as e:
     print(f"⏱️ ~ETA: {remaining / max(rate,1e-6):.1f}s @ {rate:.1f} slots/s")
 
     # Output
-    header = ["address","chain_id","slot_dec","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
+       full_header = ["address","chain_id","slot_dec","slot_hex","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
+             if args.pair_root_only:
+                for r in rows:
+                    minimal = [r[0], r[2], r[3], r[4], r[5], r[10]]  # adjust indices per your layout
+                    w.writerow(minimal)
+            else:
+                w.writerows(rows)
+
     if args.csv:
         tmp = args.csv + ".tmp"
         with open(tmp, "w", newline="") as f:
