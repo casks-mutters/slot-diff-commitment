@@ -79,9 +79,9 @@ def stream(args):
         if args.csv_header and not file_exists:
             csv_writer.writeheader()
 
-    last_block = None
-    last_ue = None
-    last_leaf  = None
+     last_block = None
+    last_value = None
+    last_leaf = None
     changes = 0
    if args.start is not None and args.start > tip: print(f"⚠️ start block {args.start} > tip {tip}; using tip instead."); current = tip
 
