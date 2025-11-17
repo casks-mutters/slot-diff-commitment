@@ -23,6 +23,7 @@ DEFAULT_OUT = "slot_diff_attestation.json"
 
 @dataclass
 class Attestation:
+    """Canonical representation of a two-block storage-slot attestation."""
     address: str
     slot_hex: str
     slot_dec: int
