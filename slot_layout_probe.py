@@ -25,10 +25,10 @@ RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 RPC_TIMEOUT = float(os.getenv("RPC_TIMEOUT", "20"))
 
 def checksum(addr: str) -> str:
-       if not isinstance(addr, str) or not Web3.is_address(addr):
-        print("❌ Invalid Ethereum address.", file=sys.stderr); sys.exit(2)
+    if not isinstance(addr, str) or not Web3.is_address(addr):
+        print("❌ Invalid Ethereum address.", file=sys.stderr)
+        sys.exit(2)
     return Web3.to_checksum_address(addr)
-
 
 def parse_slot(s: str) -> int:
     try:
