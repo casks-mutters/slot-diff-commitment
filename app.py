@@ -69,6 +69,8 @@ def main():
 
     w3 = connect(RPC_URL)
     print(f"🌐 Connected to {network_name(w3.eth.chain_id)} (chainId {w3.eth.chain_id})")
+    if w3.eth.get_code(address) == b"":
+    print("⚠️ The target address has no contract code — likely not a smart contract.")
 
     start = time.time()
 
