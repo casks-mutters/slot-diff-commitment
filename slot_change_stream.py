@@ -82,6 +82,7 @@ def stream(args):
     current = args.start if args.start is not None else w3.eth.block_number
 
     while not stop_flag["stop"]:
+        if not w3.is_connected(): print("🔌 Reconnecting RPC…"); w3 = connect(args.rpc)
         try:
             latest = w3.eth.block_number
         except Exception as e:
