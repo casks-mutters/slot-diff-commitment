@@ -59,6 +59,7 @@ def main():
             slot = parse_slot(row["slot"].strip())
             block_a = int(row["block_a"])
             block_b = int(row["block_b"])
+            if block_a > block_b: block_a, block_b = block_b, block_a; print(f"🔄 Swapped blocks for {address}")
         except Exception as e:
             print(f"⚠️  Skipping invalid row {row}: {e}", file=sys.stderr)
             continue
