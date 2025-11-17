@@ -116,7 +116,9 @@ def main():
         print(f"⚠️ Upper bound {hi} exceeds tip {tip}; clamping to tip.")
         hi = tip
     if lo < 0:
-        print("❌ start_block must be ≥ 0."); sys.exit(2)
+        print("❌ start_block must be ≥ 0.", file=sys.stderr)
+        sys.exit(2)
+
 
     code = w3.eth.get_code(address)
     if not code: print("❌ Target has no contract code (EOA)."); sys.exit(2)
