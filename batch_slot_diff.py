@@ -95,8 +95,9 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
         changed = "YES" if v_a != v_b else "NO"
         if v_a == v_b == b"\x00" * 32: print(f"ℹ️  Slot {slot} for {address} is zero at both blocks.")
 
-     row_time = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime()); print(f"✅ {address} done @ {row_time}")
-     writer.writerow({
+             row_time = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
+        print(f"✅ {address} done @ {row_time}", file=sys.stderr)
+        writer.writerow({
             "address": address,
             "slot": row["slot"].strip(),
             "block_a": block_a,
