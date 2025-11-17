@@ -133,9 +133,9 @@ def main() -> None:
     ap.add_argument("--default-scan", type=int, default=256, help="If --slots omitted, scan 0..N-1 (default 256)")
     ap.add_argument("--only-changed", action="store_true", help="Emit only rows where value changed")
     ap.add_argument("--only-nonzero", action="store_true", help="Emit only rows where any value is non-zero")
-    ap.add_argument("--csv", help="Write results to CSV (path). If omitted, print to stdout.")
+        ap.add_argument("--csv", help="Write results to CSV (path). If omitted, print to stdout.")
     ap.add_argument("--no-header", action="store_true", help="Do not write CSV header")
-        ap.add_argument(
+    ap.add_argument(
         "--no-0x",
         action="store_true",
         help="Emit hex values without 0x prefix",
