@@ -105,12 +105,16 @@ def stream(args):
     if current < 0: print("❌ start block cannot be negative."); sys.exit(2)
 
     while not stop_flag["stop"]:
-        if not w3.is_connected(): print("🔌 Reconnecting RPC…"); w3 = connect(args.rpc)
+             if not w3.is_connected():
+            print("🔌 Reconnecting RPC…", file=sys.stderr)
+            w3 = connect(args.rpc)
         try:
             latest = w3.eth.block_number
         except Exception as e:
-            print(f"⚠️ Failed to read latest block: {e}")
-            time.sleep(args.inter); continue
+            print(f"⚠️ Failed to read latest block: {e}", file=sys.stderr)
+            time.sleep(args.interval)
+            continue
+
 
         # progress through new blocks up to latest
         while current <= latest and not stop_flag["stop"]:
