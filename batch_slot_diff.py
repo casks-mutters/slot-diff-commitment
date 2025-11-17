@@ -59,11 +59,12 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
         try:
             address = checksum(row["address"].strip())
             if not Web3.is_address(address): print(f"❌ Invalid address: {row['address']}"); continue
-            slot = parse_slot(row["slot"].strip())
-            if slot < 0 or slot >= 2**256: print(f"❌ Slot out of range for {address}: {slot}"); continue
+                        slot = parse_slot(row["slot"].strip())
             block_a = int(row["block_a"])
             block_b = int(row["block_b"])
-            if block_a > block_b: block_a, block_b = block_b, block_a; print(f"🔄 Swapped blocks for {address}")
+            if block_a > block_b:
+                block_a, block_b = block_b, block_a
+                print(f"🔄 Swapped blocks for {address}", file=sys.stderr)
         except Exception as e:
             print(f"⚠️  Skipping invalid row {row}: {e}", file=sys.stderr)
             continue
