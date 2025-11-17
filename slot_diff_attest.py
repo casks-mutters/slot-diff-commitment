@@ -143,9 +143,9 @@ if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeh
     if block_a > tip or block_b > tip: print(f"⚠️ Requested block beyond tip {tip}; clamping upper bound."); block_b = min(block_b, tip)
     if block_b > tip:
         print(f"⚠️ block_b {block_b} > tip {tip}; clamping."); block_b = tip
-    if not w3.eth.get_code(address):
-        print("⚠️ Target has no contract code — likely an EOA (reads will be zero).")
-     if not code: print("❌ Target has no contract code (EOA)."); sys.exit(2)
+      code = w3.eth.get_code(address)
+    if not code:
+        print("⚠️ Target has no contract code — likely an EOA (reads will be zero).", file=sys.stderr)
 
     try:
         v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
