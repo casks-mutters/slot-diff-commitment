@@ -66,6 +66,7 @@ def main():
     except ValueError:
         print("❌ block_a and block_b must be integers.")
         sys.exit(1)
+        if block_a > block_b: block_a, block_b = block_b, block_a; print("🔄 Swapped block order for ascending comparison.")
 
     w3 = connect(RPC_URL)
     if not w3.eth.get_code(address): print("⚠️ Target has no contract code — likely an EOA, not a smart contract.")
