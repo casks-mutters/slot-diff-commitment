@@ -43,7 +43,8 @@ class Attestation:
 
 def checksum(addr: str) -> str:
     if not Web3.is_address(addr):
-        print("❌ Invalid Ethereum address.", file=sys.stderr); sys.exit(2)
+        print("❌ Invalid Ethereum address.", file=sys.stderr)
+        sys.exit(2)
     return Web3.to_checksum_address(addr)
 
 def parse_slot(s: str) -> int:
