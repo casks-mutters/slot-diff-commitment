@@ -12,6 +12,10 @@ if not logger.handlers:
     logger.addHandler(logging.NullHandler())
     logger.propagate = False
 
+from __future__ import annotations
+__version__: str = "0.1.0"
+__author__: str = "Contributors"
+
 import os, sys, csv, time, argparse
 from typing import Iterable, List, Tuple
 from web3 import Web3
