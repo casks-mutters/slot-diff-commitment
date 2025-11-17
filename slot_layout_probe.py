@@ -113,14 +113,16 @@ def iter_slots(args) -> Iterable[int]:
     return range(0, end + 1)
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
-        ap.add_argument(
+    ap = argparse.ArgumentParser(
+        description="Probe storage slots across two blocks and emit commitments."
+    )
+    ap.add_argument(
         "--pair-root-only",
         action="store_true",
         help="Emit only address, slot, block_a, block_b and pair_root columns",
     )
     ap.add_argument("address", help="Contract address (0x...)")
-        ap.add_argument(
+    ap.add_argument(
         "--max-slots",
         type=int,
         default=20000,
