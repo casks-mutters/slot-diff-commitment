@@ -85,7 +85,8 @@ def main():
     ap.add_argument("--note", default="", help="Optional note embedded in attestation")
     ap.add_argument("--sign", action="store_true", help="Sign with PRIVATE_KEY (EIP-191 personal_sign)")
     args = ap.parse_args()
-
+    
+    if not Web3.is_address(args.address): print("❌ Invalid Ethereum address."); sys.exit(2)
     address = checksum(args.address)
     slot = parse_slot(args.slot)
     block_a, block_b = args.block_a, args.block_b
