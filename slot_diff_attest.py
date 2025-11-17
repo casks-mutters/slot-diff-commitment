@@ -57,9 +57,10 @@ def parse_slot(s: str) -> int:
     return v
 
 def connect(url: str) -> Web3:
-       w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": RPC_TIMEOUT}))
+    w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": RPC_TIMEOUT}))
     if not w3.is_connected():
-        print("❌ Failed to connect to RPC."); sys.exit(1)
+        print("❌ Failed to connect to RPC. Set RPC_URL or use --rpc.", file=sys.stderr)
+        sys.exit(1)
     return w3
 
 def leaf_commitment(chain_id: int, address: str, slot: int, block_number: int, value: bytes) -> bytes:
