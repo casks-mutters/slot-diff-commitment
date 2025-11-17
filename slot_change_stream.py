@@ -47,7 +47,8 @@ def to_hex(b: bytes) -> str:
 
 def unix_to_utc(ts: int) -> str:
     return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(int(ts)))
-
+if args.interval < 0.5: print("⚠️ Minimum interval is 0.5s; clamping."); args.interval = 0.5
+    
 def stream(args):
     w3 = connect(args.rpc)
     address = checksum(args.address)
