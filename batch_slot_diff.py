@@ -4,6 +4,11 @@ from web3 import Web3
 
 # CLI: python batch_slot_diff.py input.csv > report.csv
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
+    if "your_api_key" in RPC_URL:
+        print(
+            "⚠️ RPC_URL still uses an Infura placeholder — set RPC_URL or pass a real --rpc.",
+            file=sys.stderr,
+        )
 
 def checksum(addr: str) -> str:
     return Web3.to_checksum_address(addr)
