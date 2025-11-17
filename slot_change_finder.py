@@ -52,10 +52,16 @@ def fmt_ts(ts: int) -> str:
     return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(ts))
 
 def find_first_change(w3: Web3, addr: str, slot: int, lo: int, hi: int) -> int | None:
+      """
+    Assumes piecewise-constant storage between blocks.
+
+    Returns:
+      - The earliest block in (lo, hi] where value != value_at(lo), or
+      - None if no change in [lo, hi].
+
+    Performs a binary search over the range, O(log N) storage reads.
     """
-    Assumes piecewise-constant storage; returns the earliest block in (lo, hi] where value != value_at(lo).
-    Binary-search boundary; O(log N) storage reads.
-    """
+
     if lo >= hi:
         return None
     try:
