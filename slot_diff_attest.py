@@ -179,17 +179,19 @@ if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeh
     )
 
     if args.sign:
-        if Account is None:
-            print("❌ Signing requires eth_account. Install web3[account] or eth-account."); sys.exit(2)
+          if Account is None:
+            print("❌ Signing requires eth_account. Install web3[account] or eth-account.", file=sys.stderr)
+            sys.exit(2)
         pk = os.getenv("PRIVATE_KEY", "").strip()
         if pk.startswith("0x"): pk = pk[2:]
         if not pk:
             print("❌ --sign requested but PRIVATE_KEY env var not set."); sys.exit(2)
+             sys.exit(2)
         try:
             acct = Account.from_key(pk)
         except Exception as e:
             print(f"❌ Invalid PRIVATE_KEY: {e}"); sys.exit(2)
-
+ sys.exit(2)
         # EIP-191 personal_sign over the keccak of canonical JSON
         payload = json.dumps(asdict(att), separators=(",", ":"), sort_keys=True).encode()
         msg = encode_defunct(primitive=Web3.keccak(payload))
