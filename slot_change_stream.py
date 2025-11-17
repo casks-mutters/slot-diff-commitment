@@ -151,7 +151,7 @@ def stream(args):
                             "changed": "YES"
                         })
                     last_block, last_value, last_leaf = current, val, leaf
-                    if args.max_changes and changes >= args.max_changes:
+                                      if args.max_changes and changes >= args.max_changes:
                         print(f"✅ Max changes reached ({changes}); exiting.")
                         stop_flag["stop"] = True
                         break
