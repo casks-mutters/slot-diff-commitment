@@ -39,7 +39,7 @@ def main():
         sys.exit(2)
 
    
- w3 = Web3(Web3.HTTPProvider(RPC_URL, request_kwargs={"timeout": 20}))
+     w3 = Web3(Web3.HTTPProvider(RPC_URL, request_kwargs={"timeout": 20}))
     if not w3.is_connected():
         print("❌ Failed to connect to RPC. Check RPC_URL.", file=sys.stderr)
         sys.exit(1)
