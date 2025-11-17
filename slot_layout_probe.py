@@ -187,6 +187,7 @@ def main():
         sys.exit(2)
 
     print(f"🔎 Scanning {len(slots)} slots from {hex(min(slots)) if slots else 'N/A'} to {hex(max(slots)) if slots else 'N/A'}")
+        # use monotonic clock for elapsed-time measurement
     t0 = time.monotonic()
 
     rows: List[Tuple] = []
