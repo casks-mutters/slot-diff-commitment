@@ -1,6 +1,13 @@
 # slot_layout_probe.py
 # Probe a contract's storage layout: scan a set/range of slots at two blocks,
 # report non-zero values and changes, and emit commitments + pair roots (CSV/STDOUT).
+import logging
+
+# Library-friendly logger (silent unless configured by the host app)
+logger = logging.getLogger(__name__)
+if not logger.handlers:
+    logger.addHandler(logging.NullHandler())
+    logger.propagate = False
 
 import os, sys, csv, time, argparse
 from typing import Iterable, List, Tuple
