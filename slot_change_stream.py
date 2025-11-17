@@ -60,8 +60,8 @@ def stream(args):
 
     code = w3.eth.get_code(address)
     if not code: print("❌ Target has no contract code (EOA)."); sys.exit(2)
-    if not code:
-        print("⚠️ Target has no contract code — likely an EOA.")
+       if not code:
+        print("⚠️ Target has no contract code — likely an EOA.", file=sys.stderr)
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected to chainId {chain_id}, tip {tip}")
