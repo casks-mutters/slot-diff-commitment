@@ -26,7 +26,13 @@ def connect(url: str) -> Web3:
 def storage_at(w3_provider_uri: str, address: str, slot: int, block_number: int) -> bytes:
     # cache key uses provider URI string via decorator arg; w3 constructed per call to avoid unhashable
     w3 = Web3(Web3.HTTPProvider(w3_provider_uri, request_kwargs={"timeout": 30}))
-    return w3.eth.get_storage_at(address, slot, block_identifier=block_number)
+    for _ in range(3):
+    try:
+        return w3.eth.get_storage_at(address, slot, block_identifier=block_number)
+    except Exception as e:
+        time.sleep(0.3)
+print(f"❌ RPC retries failed for block {block_number}."); sys.exit(2)
+
 
 def leaf_commitment(chain_id: int, address: str, slot: int, block_number: int, value: bytes) -> bytes:
     payload = (
