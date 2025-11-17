@@ -160,8 +160,10 @@ def main():
         leaf_end  = leaf_commitment(chain_id, address, slot, hi, end_val)
         root12 = pair_root(leaf_base, leaf_edge)
         root23 = pair_root(leaf_edge, leaf_end)
+        print("🔐 Emitting pair roots that commit to (base, change) and (change, end).")
         print(f"🌳 Pair root (base,change): {root12}")
         print(f"🌳 Pair root (change,end): {root23}")
+
 
     print(f"\n⏱️ Elapsed: {time.time() - t0:.2f}s")
     print(f"🕒 Report generated at {time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())} UTC")
