@@ -114,13 +114,17 @@ def stream(args):
 
         # progress through new blocks up to latest
         while current <= latest and not stop_flag["stop"]:
-            try:
+                       try:
                 blk = w3.eth.get_block(current)
-                 = get_storage_at(w3, address, slot, current)
+                val = get_storage_at(w3, address, slot, current)
             except Exception as e:
-        time.sleep(0.3)
-        try: blk = w3.eth.get_block(current); val = get_storage_at(w3, address, slot, current)
-        except Exception as e2: print(f"⚠️ Block {current} fetch error (after retry): {e2}"); break
+                time.sleep(0.3)
+                try:
+                    blk = w3.eth.get_block(current)
+                    val = get_storage_at(w3, address, slot, current)
+                except Exception as e2:
+                    print(f"⚠️ Block {current} fetch error (after retry): {e2}", file=sys.stderr)
+                    break
 
 
             leaf = leaf_commitment(chain_id, address, slot, current, val)
