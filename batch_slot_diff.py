@@ -72,8 +72,12 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
         if block_a > block_b:
             block_a, block_b = block_b, block_a
 
-        code = w3.eth.get_code(address)
-        if not code: print("⚠️ Target address has no contract code (likely EOA) — storage slot results may be misleading.")
+                code = w3.eth.get_code(address)
+        if not code:
+            print(
+                f"⚠️ Target address {address} has no contract code (likely EOA) — storage slot results may be misleading.",
+                file=sys.stderr,
+            )
 
         try:
             tip = w3.eth.block_number
