@@ -191,16 +191,14 @@ def stream(args):
     print("👋 Done.")
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
-        ap.add_argument(
+    ap = argparse.ArgumentParser(
+        description="Live monitor a storage slot and emit commitment roots on change."
+    )
+    ap.add_argument(
         "--version",
         action="store_true",
         help="Print version and exit",
     )
-    if args.version:
-        print(f"slot_live_monitor version {__version__}")
-        return
-    args = ap.parse_args()
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("-r", "--rpc", default=RPC_URL, help="RPC URL (default from RPC_URL env)")
@@ -212,6 +210,11 @@ def main() -> None:
     ap.add_argument("--max-changes", type=int, default=0, help="Stop after N changes (0 = unlimited)")
     ap.add_argument("--quiet", action="store_true", help="Suppress steady-state prints")
     args = ap.parse_args()
+
+    if args.version:
+        print(f"slot_live_monitor version {__version__}")
+        return
+
     stream(args)
 
 if __name__ == "__main__":
