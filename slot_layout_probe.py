@@ -109,7 +109,8 @@ def iter_slots(args) -> Iterable[int]:
     if args.slots:
         return parse_slots_arg(args.slots)
     # default: scan a small prefix range
-    end = min(args.default_scan - 1, 2047)  # safety cap
+    default_scan = args.default_scan if args.default_scan > 0 else 256
+    end = min(default_scan - 1, 2047)  # safety cap
     return range(0, end + 1)
 
 def main() -> None:
