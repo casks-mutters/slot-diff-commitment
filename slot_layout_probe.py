@@ -137,6 +137,7 @@ def main():
     code = w3.eth.get_code(address)
     if not code:
         print("⚠️ Target has no contract code (EOA?) — storage will likely read as zero.")
+    if abs(block_b - block_a) > 1_000_000: print("📦 Warning: Large block gap — ensure your RPC is an archive node.")
 
     # verify both bounds exist (archive/node sanity)
     for b in (block_a, block_b):
