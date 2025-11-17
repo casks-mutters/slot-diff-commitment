@@ -98,6 +98,8 @@ def main():
         block_a, block_b = block_b, block_a
         print("🔄 Swapped block order for ascending comparison.")
 
+
+if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeholder — replace it.")
     w3 = connect(args.rpc)
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
