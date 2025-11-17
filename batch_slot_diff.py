@@ -55,6 +55,12 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
     writer = csv.DictWriter(sys.stdout, fieldnames=fieldnames)
     writer.writeheader()
 
+        processed = 0
+        for row in reader:
+            ...
+            writer.writerow({...})
+            processed += 1
+
     for row in reader:
         try:
             address = checksum(row["address"].strip())
