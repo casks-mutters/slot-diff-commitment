@@ -39,3 +39,10 @@ Example: python app.py 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 0x0 18000000 1
 - The pair commitment uses keccak(sorted(leafA, leafB)) for determinism regardless of leaf order.
 - This is a conceptual demo; it does not generate zk proofs. It focuses on commitments that are easy to verify and compare.
 - To extend: accept multiple slots and build a larger Merkle tree, or export JSON for downstream verifiers.
+
+## Troubleshooting
+- **Block not found / future block**: Ensure your block ≤ current tip shown by the tool.
+- **Empty reads on old blocks**: Use an **archive** RPC endpoint.
+- **Invalid address**: Double-check 0x prefix and length; use checksummed addresses.
+- **Rate limited (HTTP 429)**: Increase `--interval`, change provider, or add a paid key.
+
