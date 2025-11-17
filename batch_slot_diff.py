@@ -108,6 +108,6 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
             "pair_root": root,
             "changed": changed,
         })
-print(f"\n📊 Processed {reader.line_num-1} rows total.")
+    print(f"\n📊 Processed {processed} rows total.", file=sys.stderr)
 if __name__ == "__main__":
     main()
