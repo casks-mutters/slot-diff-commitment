@@ -56,9 +56,9 @@ def parse_slots_arg(arg: str) -> List[int]:
         if "-" in chunk:
             a, b = chunk.split("-", 1)
             a_i, b_i = parse_slot(a), parse_slot(b)
-            if a_i > b_i:
+                      if a_i > b_i:
                 a_i, b_i = b_i, a_i
-                     # guard large ranges by default
+            # guard large ranges by default
             if b_i - a_i > 5000:
                 print(
                     f"⚠️  Truncating large range {a_i}-{b_i} to 5000 slots.",
@@ -67,6 +67,7 @@ def parse_slots_arg(arg: str) -> List[int]:
                 b_i = a_i + 5000
 
             slots.extend(range(a_i, b_i + 1))
+
         else:
             slots.append(parse_slot(chunk))
     # de-dup while preserving order
