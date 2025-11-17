@@ -19,8 +19,10 @@ def checksum(addr: str) -> str:
 def connect(url: str) -> Web3:
     w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": 30}))
     if not w3.is_connected():
-        print("❌ Failed to connect to RPC. Check RPC_URL."); sys.exit(1)
+        print("❌ Failed to connect to RPC. Check RPC_URL or use --rpc.", file=sys.stderr)
+        sys.exit(1)
     return w3
+
 
 @lru_cache(maxsize=8192)
 def storage_at(w3_provider_uri: str, address: str, slot: int, block_number: int) -> bytes:
