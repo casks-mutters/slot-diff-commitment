@@ -85,7 +85,9 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
             print(f"⚠️  RPC error on {address} slot {slot}: {e}", file=sys.stderr)
             continue
             
-        if v_a is None or v_b is None: print(f"⚠️ Missing storage data for {address}"); continue
+                if v_a is None or v_b is None:
+            print(f"⚠️ Missing storage data for {address}", file=sys.stderr)
+            continue
         leaf_a = leaf_commitment(chain_id, address, slot, block_a, v_a)
         leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
         fee_a = w3.eth.get_block(block_a).get("baseFeePerGas", 0); fee_b = w3.eth.get_block(block_b).get("baseFeePerGas", 0)
