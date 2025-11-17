@@ -79,8 +79,10 @@ def parse_slots_arg(arg: str) -> List[int]:
 def connect(url: str) -> Web3:
     w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": RPC_TIMEOUT}))
     if not w3.is_connected():
-        print("❌ Failed to connect to RPC. Set  or --rpc."); sys.exit(1)
+        print("❌ Failed to connect to RPC. Set RPC_URL or pass --rpc.", file=sys.stderr)
+        sys.exit(1)
     return w3
+
 
 def get_storage_at(w3: Web3, address: str, slot: int, block_num: int) -> bytes:
     return w3.eth.get_storage_at(address, slot, block_identifier=block_num)
