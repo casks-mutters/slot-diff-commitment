@@ -22,7 +22,7 @@ def leaf_commitment(chain_id: int, address: str, slot: int, block_number: int, v
     return Web3.keccak(payload)
 
 def pair_root(a: bytes, b: bytes) -> str:
-    first, second = (a, b) if a < b else (b, a)
+    first, second = (a, b) if a.hex() < b.hex() else (b, a)
     return "0x" + Web3.keccak(first + second).hex()
 
 def to_hex(b: bytes) -> str:
