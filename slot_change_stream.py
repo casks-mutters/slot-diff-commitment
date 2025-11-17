@@ -4,6 +4,7 @@ from typing import Optional
 from web3 import Web3
 
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
+RPC_TIMEOUT = float(os.getenv("RPC_TIMEOUT", "20"))
 
 def checksum(addr: str) -> str:
     if not Web3.is_address(addr):
@@ -20,7 +21,7 @@ def parse_slot(s: str) -> int:
     return v
 
 def connect(url: str) -> Web3:
-    w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": 20}))
+    w3 = Web3(Web3.HTTPProvider(url, request_kwargs={"timeout": RPC_TIMEOUT}))
     if not w3.is_connected():
         print("❌ Failed to connect to RPC. Check RPC_URL / --rpc."); sys.exit(1)
     return w3
