@@ -147,8 +147,8 @@ def main() -> None:
         print("⚠️ RPC_URL still uses Infura placeholder — replace with a real key.")
     if "your_api_key" in args.rpc: print("⚠️ Replace placeholder Infura key or use another RPC provider.")
 
-    address = checksum(args.address)
-      block_a, block_b = args.block_a, args.block_b
+        address = checksum(args.address)
+    block_a, block_b = args.block_a, args.block_b
     if min(block_a, block_b) < 0:
         print("❌ Block numbers must be ≥ 0.", file=sys.stderr); sys.exit(2)
     if block_a == block_b:
