@@ -142,12 +142,15 @@ def main():
     if "your_api_key" in args.rpc: print("⚠️ Replace placeholder Infura key or use another RPC provider.")
 
     address = checksum(args.address)
-    block_a, block_b = args.block_a, args.block_b
+      block_a, block_b = args.block_a, args.block_b
     if min(block_a, block_b) < 0:
-        print("❌ Block numbers must be ≥ 0."); sys.exit(2)
+        print("❌ Block numbers must be ≥ 0.", file=sys.stderr); sys.exit(2)
+    if block_a == block_b:
+        print("⚠️ block_a == block_b; changes will only reflect storage at one height.", file=sys.stderr)
     if block_a > block_b:
         block_a, block_b = block_b, block_a
-        print("🔄 Swapped block order for ascending comparison.")
+        print("🔄 Swapped block order for ascending comparison.", file=sys.stderr)
+
 
     w3 = connect(args.rpc)
     chain_id = w3.eth.chain_id
