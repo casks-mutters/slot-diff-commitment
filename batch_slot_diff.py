@@ -93,7 +93,8 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
 
         root = pair_root(leaf_a, leaf_b)
         changed = "YES" if v_a != v_b else "NO"
-        if v_a == v_b == b"\x00" * 32: print(f"ℹ️  Slot {slot} for {address} is zero at both blocks.")
+                if v_a == v_b == b"\x00" * 32:
+            print(f"ℹ️  Slot {slot} for {address} is zero at both blocks.", file=sys.stderr)
 
      row_time = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime()); print(f"✅ {address} done @ {row_time}")
      writer.writerow({
