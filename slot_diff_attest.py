@@ -104,7 +104,7 @@ if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeh
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
     print(f"🌐 Connected chainId={chain_id}, tip={tip}")
-
+    if block_a > tip or block_b > tip: print(f"⚠️ Requested block beyond tip {tip}; clamping upper bound."); block_b = min(block_b, tip)
     if block_b > tip:
         print(f"⚠️ block_b {block_b} > tip {tip}; clamping."); block_b = tip
     if not w3.eth.get_code(address):
