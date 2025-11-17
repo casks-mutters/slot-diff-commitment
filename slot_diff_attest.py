@@ -147,12 +147,16 @@ if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeh
         print("⚠️ Target has no contract code — likely an EOA (reads will be zero).")
      if not code: print("❌ Target has no contract code (EOA)."); sys.exit(2)
 
-    try:
+      try:
         v_a = w3.eth.get_storage_at(address, slot, block_identifier=block_a)
         v_b = w3.eth.get_storage_at(address, slot, block_identifier=block_b)
-        if v_a in (None, b"") or v_b in (None, b""): print("❌ Historical storage unavailable (archive node required)."); sys.exit(2)
+        if v_a in (None, b"") or v_b in (None, b""):
+            print("❌ Historical storage unavailable (archive node required).", file=sys.stderr)
+            sys.exit(2)
     except Exception as e:
-        print(f"❌ Storage read failed: {e}"); sys.exit(2)
+        print(f"❌ Storage read failed: {e}", file=sys.stderr)
+        sys.exit(2)
+
 
     leaf_a = leaf_commitment(chain_id, address, slot, block_a, v_a)
     leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
