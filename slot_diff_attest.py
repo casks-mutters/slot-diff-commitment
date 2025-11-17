@@ -55,6 +55,19 @@ def connect(url: str) -> Web3:
     return w3
 
 def leaf_commitment(chain_id: int, address: str, slot: int, block_number: int, value: bytes) -> bytes:
+        addr_hex = address[2:]
+        payload = (
+        chain_id.to_bytes(8, "big")
+        + bytes.fromhex(addr_hex)
+        + slot.to_bytes(32, "big")
+        + block_number.to_bytes(8, "big")
+        + value.rjust(32, b"\x00")
+    )
+
+    if len(addr_hex) != 40:
+        print(f"❌ Unexpected address length for {address}", file=sys.stderr)
+        sys.exit(2)
+
     payload = (
         chain_id.to_bytes(8, "big")
         + bytes.fromhex(address[2:])
