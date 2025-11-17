@@ -199,17 +199,19 @@ if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeh
         if not Web3.is_checksum_address(att.signer_address): print("⚠️ Signer address checksum invalid — double-check key.")
         print(f"✍️  Signed by {acct.address}")
 
-     att_dict = asdict(att)
+        att_dict = asdict(att)
     if args.stdout:
         json.dump(att_dict, sys.stdout, indent=2, sort_keys=True)
         print()  # newline
         if not args.quiet:
-            print(f"📝 Attestation written to stdout", file=sys.stderr)
+            print("📝 Attestation written to stdout", file=sys.stderr)
     else:
         with open(args.out, "w") as f:
             json.dump(att_dict, f, indent=2, sort_keys=True)
         if not args.quiet:
             print(f"📝 Wrote attestation → {args.out}", file=sys.stderr)
+
+
 
     print(f"🌳 Pair root: {root}")
     print(f"🔁 Changed: {'YES' if changed else 'NO'}")
