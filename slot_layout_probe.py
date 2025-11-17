@@ -112,7 +112,7 @@ def iter_slots(args) -> Iterable[int]:
     end = min(args.default_scan - 1, 2047)  # safety cap
     return range(0, end + 1)
 
-def main():
+def main() -> None:
     ap = argparse.ArgumentParser(description="Probe storage slots across two blocks and emit commitments.")
         ap.add_argument(
         "--pair-root-only",
