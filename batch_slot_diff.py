@@ -84,6 +84,7 @@ def main():
         leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
         root = pair_root(leaf_a, leaf_b)
         changed = "YES" if v_a != v_b else "NO"
+        if v_a == v_b == b"\x00" * 32: print(f"ℹ️  Slot {slot} for {address} is zero at both blocks.")
 
      row_time = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime()); print(f"✅ {address} done @ {row_time}")
      writer.writerow({
