@@ -116,10 +116,16 @@ def main():
     if block_a > block_b: block_a, block_b = block_b, block_a; print("🔄 Swapped block order for ascending comparison.")
         
     if min(block_a, block_b) < 0:
-        print("❌ Block numbers must be ≥ 0."); sys.exit(2)
+        print("❌ Block numbers must be ≥ 0.", file=sys.stderr); sys.exit(2)
+    if block_a == block_b:
+        print(
+            "ℹ️  block_a == block_b; attestation compares the same block twice.",
+            file=sys.stderr,
+        )
     if block_a > block_b:
         block_a, block_b = block_b, block_a
-        print("🔄 Swapped block order for ascending comparison.")
+        print("🔄 Swapped block order for ascending comparison.", file=sys.stderr)
+
 
 
 if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeholder — replace it.")
