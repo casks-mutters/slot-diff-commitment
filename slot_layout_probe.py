@@ -234,12 +234,17 @@ except Exception as e:
             "YES" if changed else "NO"
         ))
 
-        # light progress pulse
+               # light progress pulse
         if i % 64 == 0:
-            print(f"… {i}/{len(slots)} slots scanned")
-    if i % 128 == 0 and i > 0:
-    elapsed = time.monotonic() - t0; rate = i / max(elapsed, 1e-6); remaining = len(slots) - i
-    print(f"⏱️ ~ETA: {remaining / max(rate,1e-6):.1f}s @ {rate:.1f} slots/s")
+            print(f"… {i}/{len(slots)} slots scanned", file=sys.stderr)
+        if i % 128 == 0 and i > 0:
+            elapsed = time.monotonic() - t0
+            rate = i / max(elapsed, 1e-6)
+            remaining = len(slots) - i
+            print(
+                f"⏱️ ~ETA: {remaining / max(rate, 1e-6):.1f}s @ {rate:.1f} slots/s",
+                file=sys.stderr,
+            )
 
     # Output
        full_header = ["address","chain_id","slot_dec","slot_hex","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
