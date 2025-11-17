@@ -9,7 +9,15 @@ def checksum(addr: str) -> str:
     return Web3.to_checksum_address(addr)
 
 def parse_slot(s: str) -> int:
-    return int(s, 0)  # accepts "5" or "0x5"
+    try:
+        v = int(s, 0)  # accepts "5" or "0x5"
+    except Exception:
+        print(f"❌ Invalid slot format: {s!r} (use decimal or 0xHEX).", file=sys.stderr)
+        sys.exit(2)
+    if v < 0 or v >= 2**256:
+        print("❌ Slot out of range [0, 2^256).", file=sys.stderr)
+        sys.exit(2)
+    return v
 
 def leaf_commitment(chain_id: int, address: str, slot: int, block_number: int, value: bytes) -> bytes:
     payload = (
