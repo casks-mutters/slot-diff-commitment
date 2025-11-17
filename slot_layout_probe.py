@@ -1,11 +1,13 @@
 """Helper utilities for probing and inspecting slot layouts.
 Importing this module has no side effects.
 """
+from __future__ import annotations
+
 # slot_layout_probe.py
-b/slot_layout_probe.py
 # Probe a contract's storage layout: scan a set/range of slots at two blocks,
 # report non-zero values and changes, and emit commitments + pair roots (CSV/STDOUT).
 import logging
+
 
 # Library-friendly logger (silent unless configured by the host app)
 logger = logging.getLogger(__name__)
@@ -13,7 +15,6 @@ if not logger.handlers:
     logger.addHandler(logging.NullHandler())
     logger.propagate = False
 
-from __future__ import annotations
 __version__: str = "0.1.0"
 __author__: str = "Contributors"
 
