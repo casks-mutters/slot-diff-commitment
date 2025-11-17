@@ -57,8 +57,8 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
 
     for row in reader:
         try:
-            address = checksum(row["address"].strip())
-            if not Web3.is_address(address): print(f"❌ Invalid address: {row['address']}"); continue
+                        address_raw = row["address"].strip()
+            address = checksum(address_raw)
             slot = parse_slot(row["slot"].strip())
             if slot < 0 or slot >= 2**256: print(f"❌ Slot out of range for {address}: {slot}"); continue
             block_a = int(row["block_a"])
