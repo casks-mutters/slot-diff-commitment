@@ -114,7 +114,10 @@ def main() -> None:
     ap.add_argument("-n", "--note", default="", help="Optional note embedded in attestation")
     ap.add_argument("-s", "--sign", action="store_true", help="Sign with PRIVATE_KEY (EIP-191 personal_sign)")
     args = ap.parse_args()
-    
+        if "your_api_key" in args.rpc:
+        print("⚠️ RPC_URL still uses an Infura placeholder — replace it.", file=sys.stderr)
+
+
     if not Web3.is_address(args.address): print("❌ Invalid Ethereum address."); sys.exit(2)
     address = checksum(args.address)
     if address.lower().startswith("0x0000") or int(address, 16) < 2**160 // 1000: print("⚠️ Address looks like EOA or trivial; check target.")
@@ -135,7 +138,6 @@ def main() -> None:
 
 
 
-if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeholder — replace it.")
     w3 = connect(args.rpc)
     chain_id = w3.eth.chain_id
     tip = w3.eth.block_number
