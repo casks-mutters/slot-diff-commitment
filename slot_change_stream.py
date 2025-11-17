@@ -98,6 +98,8 @@ def stream(args):
     last_value = None
     last_leaf = None
     changes = 0
+    if args.max_changes == 0 and not args.quiet:
+        print("ℹ️  max_changes=0 (unlimited changes; script will run until interrupted).", file=sys.stderr)
    if args.start is not None and args.start > tip: print(f"⚠️ start block {args.start} > tip {tip}; using tip instead."); current = tip
 
     # Start from either user-specified block or tip
