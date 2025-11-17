@@ -48,14 +48,29 @@ def main():
    tip = w3.eth.block_number
    print(f"🌐 Connected (chainId={chain_id}, tip={tip})")
 
-    reader = csv.DictReader(open(inp, newline=""))
-    required = {"address","slot","block_a","block_b"}
-if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must contain: {sorted(required)}"); sys.exit(2)
-    fieldnames = ["address","slot","block_a","block_b","value_a","value_b","leaf_a","leaf_b","pair_root","changed"]
+        required = {"address", "slot", "block_a", "block_b"}
+    fieldnames = [
+        "address",
+        "slot",
+        "block_a",
+        "block_b",
+        "value_a",
+        "value_b",
+        "leaf_a",
+        "leaf_b",
+        "pair_root",
+        "changed",
+    ]
     writer = csv.DictWriter(sys.stdout, fieldnames=fieldnames)
     writer.writeheader()
 
-    for row in reader:
+    with open(inp, newline="") as f:
+        reader = csv.DictReader(f)
+        if not required.issubset(reader.fieldnames or set()):
+            print(f"❌ CSV must contain: {sorted(required)}", file=sys.stderr)
+            sys.exit(2)
+
+        for row in reader:
         try:
             address = checksum(row["address"].strip())
             if not Web3.is_address(address): print(f"❌ Invalid address: {row['address']}"); continue
