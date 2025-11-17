@@ -92,8 +92,10 @@ def main():
     ap.add_argument("--rpc", default=RPC_URL, help="RPC URL (default: RPC_URL env or Infura placeholder)")
     args = ap.parse_args()
 
-    address = checksum(args.address)
-    if int(address, 16) == 0: print("❌ Zero address is not a valid contract target."); sys.exit(2)
+        address = checksum(args.address)
+    if int(address, 16) == 0:
+        print("❌ Zero address is not a valid contract target.", file=sys.stderr)
+        sys.exit(2)
     slot = parse_slot(args.slot)
     if slot == 0: print("⚠️ Slot 0 may hold global variables — double-check if that’s intended.")
     if slot < 0 or slot >= 2**256:
