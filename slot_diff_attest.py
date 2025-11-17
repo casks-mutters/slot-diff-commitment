@@ -14,7 +14,7 @@ try:
     from eth_account import Account
     from eth_account.messages import encode_defunct
 except Exception:
-    Account = None  # signing remains optional
+    Account = None   # eth_account is optional; signing will be disabled if not installed
 
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 RPC_TIMEOUT = float(os.getenv("RPC_TIMEOUT", "20"))
