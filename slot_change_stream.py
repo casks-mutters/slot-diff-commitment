@@ -174,7 +174,7 @@ def stream(args):
             csv_writer = None  # let GC close file
     print("👋 Done.")
 
-def main():
+def main() -> None:
     ap = argparse.ArgumentParser(description="Live monitor a storage slot and emit commitment roots on change.")
         ap.add_argument(
         "--version",
