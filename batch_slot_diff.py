@@ -2,7 +2,8 @@
 import csv, sys, os, time
 from web3 import Web3
 
-# CLI: python batch_slot_diff.py input.csv > report.csv
+# CLI usage:
+#   python batch_slot_diff.py input.csv > report.csv
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 
 def checksum(addr: str) -> str:
