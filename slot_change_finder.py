@@ -118,8 +118,10 @@ def main():
     if lo < 0:
         print("❌ start_block must be ≥ 0."); sys.exit(2)
 
-    code = w3.eth.get_code(address)
-    if not code: print("❌ Target has no contract code (EOA)."); sys.exit(2)
+        code = w3.eth.get_code(address)
+    if not code:
+        print("❌ Target has no contract code (EOA).", file=sys.stderr)
+        sys.exit(2)
    
     t0 = time.time()
     try: _ = storage_at(str(w3.provider.endpoint_uri), address, slot, lo)
