@@ -211,8 +211,8 @@ if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeh
         if not args.quiet:
             print(f"📝 Wrote attestation → {args.out}", file=sys.stderr)
 
-    print(f"🌳 Pair root: {root}")
-    print(f"🔁 Changed: {'YES' if changed else 'NO'}")
+        print(f"🌳 Pair root: {root}", file=sys.stderr)
+    print(f"🔁 Changed: {'YES' if changed else 'NO'}", file=sys.stderr)
 
 if __name__ == "__main__":
     main()
