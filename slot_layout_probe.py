@@ -34,9 +34,11 @@ def parse_slot(s: str) -> int:
     try:
         v = int(s, 0)  # decimal or 0xHEX
     except Exception:
-        print(f"❌ Invalid slot: {s}"); sys.exit(2)
+        print(f"❌ Invalid slot: {s}", file=sys.stderr)
+        sys.exit(2)
     if v < 0 or v >= 2**256:
-        print("❌ Slot out of range [0, 2^256)."); sys.exit(2)
+        print("❌ Slot out of range [0, 2^256).", file=sys.stderr)
+        sys.exit(2)
     return v
 
 def parse_slots_arg(arg: str) -> List[int]:
