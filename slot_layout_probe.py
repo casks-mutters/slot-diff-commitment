@@ -158,15 +158,8 @@ def main() -> None:
         print("🔄 Swapped block order for ascending comparison.", file=sys.stderr)
 
 
-    w3 = connect(args.rpc)
+      w3 = connect(args.rpc)
     chain_id = w3.eth.chain_id
-            current_chain = w3.eth.chain_id
-        if current_chain != chain_id:
-            print(
-                f"⚠️  Chain ID changed during probe: {chain_id} → {current_chain}",
-                file=sys.stderr,
-            )
-            chain_id = current_chain
 
        tip = w3.eth.block_number
     if block_a > tip or block_b > tip:
