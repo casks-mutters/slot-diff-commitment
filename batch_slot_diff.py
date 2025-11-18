@@ -86,10 +86,7 @@ if not required.issubset(reader.fieldnames or set()): print(f"❌ CSV must conta
             print(f"⚠️  Skipping invalid row {row}: {e}", file=sys.stderr)
             continue
 
-        # ensure ascending order for consistency
-        if block_a > block_b:
-            block_a, block_b = block_b, block_a
-
+       
         code = w3.eth.get_code(address)
         if not code: print("⚠️ Target address has no contract code (likely EOA) — storage slot results may be misleading.")
 
