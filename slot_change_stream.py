@@ -57,6 +57,7 @@ def stream(args):
     start = time.time(); w3.eth.block_number; print(f"⚙️ RPC warm-up latency: {(time.time() - start)*1000:.0f} ms")
     address = checksum(args.address)
     slot = parse_slot(args.slot)
+    print(f"🕒 Monitor started at {unix_to_utc(time.time())} UTC", file=sys.stderr)
 
     code = w3.eth.get_code(address)
     if not code: print("❌ Target has no contract code (EOA)."); sys.exit(2)
