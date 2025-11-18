@@ -210,12 +210,8 @@ def stream(args):
             while time.monotonic() - t0 < args.interval and not stop_flag["stop"]: time.sleep(0.05)
         time.sleep(args.interval)
 
-    if csv_writer:
-        try:
-            csv_writer._dict_writer__writerows  # keep linter quiet; file close below
-        finally:
-            csv_writer.writer.writerow  # access ensures object use
-            csv_writer = None  # let GC close file
+    if csv_writer and out_file:
+        out_file.close()
     print("👋 Done.")
 
 def main() -> None:
