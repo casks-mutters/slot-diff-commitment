@@ -143,9 +143,11 @@ def main() -> None:
 
     args = ap.parse_args()
 
-    if "your_api_key" in args.rpc:
-        print("⚠️ RPC_URL still uses Infura placeholder — replace with a real key.")
-    if "your_api_key" in args.rpc: print("⚠️ Replace placeholder Infura key or use another RPC provider.")
+        if "your_api_key" in args.rpc:
+        print(
+            "⚠️ RPC_URL (or --rpc) still uses an Infura placeholder key — replace with a real key.",
+            file=sys.stderr,
+        )
 
         address = checksum(args.address)
     block_a, block_b = args.block_a, args.block_b
