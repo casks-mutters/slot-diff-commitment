@@ -41,7 +41,7 @@ Example: python app.py 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 0x0 18000000 1
 - Address and slot (hex and decimal)
 - For each block (A and B): the storage value and its per-block leaf commitment
   
-**Commitment Scheme (summary)**  
+### **Commitment Scheme (summary)**  
 `leaf = keccak(chain_id || address || slot || block || value_32b)`  
 `pair_root = keccak(min(leafA, leafB) || max(leafA, leafB))`  
 This makes outputs reproducible across nodes given identical inputs.
