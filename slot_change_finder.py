@@ -121,11 +121,13 @@ def main():
     if slot < 0 or slot >= 2**256:
         print("❌ Slot out of range [0, 2^256)."); sys.exit(2)
 
-    lo, hi = args.start_block, args.end_block
+        lo, hi = args.start_block, args.end_block
     if lo > hi:
         lo, hi = hi, lo
-        print("🔄 Swapped block order for ascending search.")
-        if lo == hi: print("ℹ️ start_block == end_block; nothing to search."); sys.exit(0)
+        print("🔄 Swapped block order for ascending search.", file=sys.stderr)
+    if lo == hi:
+        print("ℹ️ start_block == end_block; nothing to search.", file=sys.stderr)
+        sys.exit(0)
             
     w3 = connect(args.rpc)
     print(f"🔗 Using RPC endpoint: {args.rpc}")
