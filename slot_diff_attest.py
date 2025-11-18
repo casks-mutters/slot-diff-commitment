@@ -179,8 +179,9 @@ if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeh
     if args.sign:
         if Account is None:
             print("❌ Signing requires eth_account. Install web3[account] or eth-account."); sys.exit(2)
-        pk = os.getenv("PRIVATE_KEY", "").strip()
-        if pk.startswith("0x"): pk = pk[2:]
+               pk = (os.getenv("PRIVATE_KEY") or "").strip()
+        if pk.lower().startswith("0x"):
+            pk = pk[2:]
         if not pk:
             print("❌ --sign requested but PRIVATE_KEY env var not set."); sys.exit(2)
         try:
