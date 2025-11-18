@@ -98,8 +98,10 @@ def now_utc() -> str:
     return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Create (optionally sign) a JSON attestation for a storage slot across two blocks.")
-        ap.add_argument(
+    ap = argparse.ArgumentParser(
+        description="Create (optionally sign) a JSON attestation for a storage slot across two blocks."
+    )
+    ap.add_argument(
         "--stdout",
         action="store_true",
         help="Write attestation JSON to stdout instead of a file",
