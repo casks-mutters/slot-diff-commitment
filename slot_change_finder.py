@@ -78,18 +78,18 @@ def find_first_change(w3: Web3, addr: str, slot: int, lo: int, hi: int) -> int |
 
     if lo >= hi:
         return None
-    try:
+        try:
         base = storage_at(str(w3.provider.endpoint_uri), addr, slot, lo)
     except Exception as e:
-        print(f"❌ Failed reading base value at block {lo}: {e}"); sys.exit(2)
+        print(f"❌ Failed reading base value at block {lo}: {e}", file=sys.stderr)
+        sys.exit(2)
 
     # If end equals base too — no change in range
-    try:
+     try:
         endv = storage_at(str(w3.provider.endpoint_uri), addr, slot, hi)
     except Exception as e:
-        print(f"❌ Failed reading end value at block {hi}: {e}"); sys.exit(2)
-    if endv == base:
-        return None
+        print(f"❌ Failed reading end value at block {hi}: {e}", file=sys.stderr)
+        sys.exit(2)
 
     left, right = lo, hi
     max_iters = 512
