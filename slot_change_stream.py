@@ -77,7 +77,7 @@ def stream(args):
     signal.signal(signal.SIGINT, lambda *_: (print("\n🛑 Interrupted."), stop_flag.update(stop=True)))
     signal.signal(signal.SIGTERM, lambda *_: (print("\n🛑 Terminated."), stop_flag.update(stop=True)))
 
-        csv_writer: Optional[csv.DictWriter] = None
+           csv_writer: Optional[csv.DictWriter] = None
     out_file = None
     if args.csv:
         file_exists = os.path.exists(args.csv) and os.path.getsize(args.csv) > 0
