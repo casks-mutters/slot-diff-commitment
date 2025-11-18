@@ -10,7 +10,7 @@ import time
 import argparse
 from functools import lru_cache
 from web3 import Web3
-
+import json
 RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 
 def parse_slot(s: str) -> int:
@@ -103,6 +103,11 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     ap.add_argument("address", help="Contract address (0x...)")
+        ap.add_argument(
+        "--json",
+        action="store_true",
+        help="Also print a JSON summary to stdout",
+    )
     ap.add_argument("slot", help="Storage slot (decimal or hex, e.g. 5 or 0x5)")
     ap.add_argument("start_block", type=int, help="Lower bound block (inclusive baseline)")
     ap.add_argument("end_block", type=int, help="Upper bound block (inclusive search end)")
@@ -179,6 +184,20 @@ def main():
         root23 = pair_root(leaf_edge, leaf_end)
         print(f"🌳 Pair root (base,change): {root12}")
         print(f"🌳 Pair root (change,end): {root23}")
+    if args.json:
+        summary = {
+            "address": address,
+            "slot_dec": slot,
+            "slot_hex": hex(slot),
+            "chainId": int(chain_id),
+            "startBlock": lo,
+            "endBlock": hi,
+            "firstChangeBlock": first_change,
+            "baseValue": "0x" + base_val.hex(),
+            "endValue": "0x" + end_val.hex(),
+            "elapsedSec": round(time.monotonic() - t0, 3),
+        }
+        print(json.dumps(summary, sort_keys=True, indent=2))
 
     print(f"\n⏱️ Elapsed: {time.time() - t0:.2f}s")
     print(f"🕒 Report generated at {time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())} UTC")
