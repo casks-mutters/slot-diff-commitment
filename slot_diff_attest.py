@@ -122,20 +122,19 @@ def main() -> None:
     address = checksum(args.address)
     if address.lower().startswith("0x0000") or int(address, 16) < 2**160 // 1000: print("⚠️ Address looks like EOA or trivial; check target.")
     slot = parse_slot(args.slot)
-    block_a, block_b = args.block_a, args.block_b
-    if block_a > block_b: block_a, block_b = block_b, block_a; print("🔄 Swapped block order for ascending comparison.")
-        
+      block_a, block_b = args.block_a, args.block_b
+    if block_a > block_b:
+        block_a, block_b = block_b, block_a
+        print("🔄 Swapped block order for ascending comparison.", file=sys.stderr)
+
     if min(block_a, block_b) < 0:
-        print("❌ Block numbers must be ≥ 0.", file=sys.stderr); sys.exit(2)
+        print("❌ Block numbers must be ≥ 0.", file=sys.stderr)
+        sys.exit(2)
     if block_a == block_b:
         print(
             "ℹ️  block_a == block_b; attestation compares the same block twice.",
             file=sys.stderr,
         )
-    if block_a > block_b:
-        block_a, block_b = block_b, block_a
-        print("🔄 Swapped block order for ascending comparison.", file=sys.stderr)
-
 
 
 if "your_api_key" in args.rpc: print("⚠️ RPC_URL still uses an Infura placeholder — replace it.")
