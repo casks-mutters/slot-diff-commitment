@@ -199,14 +199,19 @@ def main() -> None:
         # use monotonic clock for elapsed-time measurement
     t0 = time.monotonic()
 
-    rows: List[Tuple] = []
+      rows: List[Tuple] = []
     for i, slot in enumerate(slots, 1):
-       try:
-    v_a = get_storage_at(w3, address, slot, block_a); v_b = get_storage_at(w3, address, slot, block_b)
-except Exception as e:
-    time.sleep(0.3);  # brief backoff
-    try: v_a = get_storage_at(w3, address, slot, block_a); v_b = get_storage_at(w3, address, slot, block_b)
-    except Exception as e2: print(f"⚠️ Slot {hex(slot)} read error (after retry): {e2}"); continue
+        try:
+            v_a = get_storage_at(w3, address, slot, block_a)
+            v_b = get_storage_at(w3, address, slot, block_b)
+        except Exception as e:
+            time.sleep(0.3)  # brief backoff
+            try:
+                v_a = get_storage_at(w3, address, slot, block_a)
+                v_b = get_storage_at(w3, address, slot, block_b)
+            except Exception as e2:
+                print(f"⚠️ Slot {hex(slot)} read error (after retry): {e2}", file=sys.stderr)
+                continue
 
 
         if len(v_a) != 32 or len(v_b) != 32:
