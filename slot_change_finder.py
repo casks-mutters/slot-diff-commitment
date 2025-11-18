@@ -129,8 +129,8 @@ def main():
     print(f"🌐 Connected (chainId {chain_id}, tip {tip})")
     if hi > tip: print(f"⚠️ end_block {hi} > tip {tip}; clamping."); hi = tip
 
-    if hi > tip:
-        print(f"⚠️ Upper bound {hi} exceeds tip {tip}; clamping to tip.")
+       if hi > tip:
+        print(f"⚠️ Upper bound {hi} exceeds tip {tip}; clamping to tip.", file=sys.stderr)
         hi = tip
     if lo < 0:
         print("❌ start_block must be ≥ 0."); sys.exit(2)
