@@ -104,11 +104,16 @@ def stream(args):
     last_value = None
     last_leaf = None
     changes = 0
-   if args.start is not None and args.start > tip: print(f"⚠️ start block {args.start} > tip {tip}; using tip instead."); current = tip
+     # Start from either user-specified block or tip
+    if args.start is not None and args.start > tip:
+        print(f"⚠️ start block {args.start} > tip {tip}; using tip instead.", file=sys.stderr)
+        current = tip
+    else:
+        current = args.start if args.start is not None else tip
 
-    # Start from either user-specified block or tip
-    current = args.start if args.start is not None else w3.eth.block_number
-    if current < 0: print("❌ start block cannot be negative."); sys.exit(2)
+    if current < 0:
+        print("❌ start block cannot be negative.", file=sys.stderr)
+        sys.exit(2)
 
     while not stop_flag["stop"]:
              if not w3.is_connected():
