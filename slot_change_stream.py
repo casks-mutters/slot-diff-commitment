@@ -204,11 +204,13 @@ def stream(args):
 
             current += 1
 
-        if stop_flag["stop"]:
+               if stop_flag["stop"]:
             break
-            t0 = time.monotonic(); 
-            while time.monotonic() - t0 < args.interval and not stop_flag["stop"]: time.sleep(0.05)
-        time.sleep(args.interval)
+
+        # Sleep until next polling tick, but allow quick interrupt
+        t0 = time.monotonic()
+        while time.monotonic() - t0 < args.interval and not stop_flag["stop"]:
+            time.sleep(0.05)
 
     if csv_writer and out_file:
         out_file.close()
