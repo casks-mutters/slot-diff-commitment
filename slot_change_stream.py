@@ -182,8 +182,11 @@ def stream(args):
                         break
                 else:
                     # Optional quiet mode
-                    if not args.quiet:
-                        print(f"… steady @#{current} ({unix_to_utc(blk.timestamp)}), value={to_hex(val)}")
+                                       if not args.quiet:
+                        print(
+                            f"… steady @#{current} ({unix_to_utc(blk.timestamp)} UTC) value={to_hex(val)}",
+                            file=sys.stderr,
+                        )
                     if csv_writer and args.csv_all:
                         csv_writer.writerow({
                             "ts_utc": unix_to_utc(blk.timestamp),
