@@ -102,7 +102,12 @@ def main() -> None:
         action="store_true",
         help="Write attestation JSON to stdout instead of a file",
     )
-
+    ap.add_argument(
+        "-q",
+        "--quiet",
+        action="store_true",
+        help="Suppress non-essential logs on stderr",
+    )
     ap.add_argument("address", help="Contract address (0x...)")
     ap.add_argument("slot", help="Storage slot (decimal or 0xHEX)")
     ap.add_argument("block_a", type=int, help="First block (inclusive)")
