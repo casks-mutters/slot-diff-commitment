@@ -221,11 +221,11 @@ except Exception as e:
         if args.only_nonzero and not any_nonzero:
             continue
 
-        leaf_a = leaf_commitment(chain_id, address, slot, block_a, v_a)
+            leaf_a = leaf_commitment(chain_id, address, slot, block_a, v_a)
         leaf_b = leaf_commitment(chain_id, address, slot, block_b, v_b)
         root = pair_root(leaf_a, leaf_b)
 
-      hex_prefix = not args.no_0x
+        hex_prefix = not args.no_0x
         rows.append((
             address, chain_id, slot, hex(slot), block_a, block_b,
             to_hex(v_a, hex_prefix), to_hex(v_b, hex_prefix),
