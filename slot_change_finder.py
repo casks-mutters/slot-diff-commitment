@@ -194,6 +194,7 @@ def main():
 
     if first_change is None:
         print("\n✅ No change detected in the range — storage is constant on (start..end].")
+                print("ℹ️  No change boundary found in the given range.", file=sys.stderr)
         # Still emit a two-leaf root committing to endpoints for auditability
         leaf_a = leaf_commitment(chain_id, address, slot, lo, base_val)
         leaf_b = leaf_commitment(chain_id, address, slot, hi, end_val)
