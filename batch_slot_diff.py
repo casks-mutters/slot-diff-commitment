@@ -12,6 +12,9 @@ RPC_URL = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
         )
 
 def checksum(addr: str) -> str:
+    if not Web3.is_address(addr):
+        print(f"❌ Invalid Ethereum address: {addr!r}", file=sys.stderr)
+        sys.exit(2)
     return Web3.to_checksum_address(addr)
 
 def parse_slot(s: str) -> int:
