@@ -58,9 +58,12 @@ def main():
         print("Example: python app.py 0xA0b8...eB48 0x0 18000000 19000000")
         sys.exit(1)
         
-   if not Web3.is_address(sys.argv[1]): print("❌ Invalid Ethereum address."); sys.exit(1)
-    address = checksum(sys.argv[1])
-    if not Web3.is_address(address): print("❌ Invalid Ethereum address format."); sys.exit(1)
+   if not Web3.is_address(sys.argv[1]):
+    print("❌ Invalid Ethereum address.", file=sys.stderr)
+    sys.exit(1)
+
+address = checksum(sys.argv[1])
+
     slot = parse_slot(sys.argv[2])
     if slot < 0 or slot >= 2**256: print("❌ Slot out of range [0, 2^256)."); sys.exit(1)
     try:
