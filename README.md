@@ -9,8 +9,23 @@
 A tiny Web3 tool that checks the soundness of a specific contract storage slot across two block heights. It fetches the storage value at block A and block B, computes Keccak commitments (leaves) that bind (chainId, address, slot, blockNumber, value), and then produces a deterministic pair commitment (a Merkle-style root over the two leaves). This mirrors the commitment patterns used in ZK/rollup systems (e.g., Aztec-like designs) where small roots capture larger facts; verifiers can later request the corresponding leaves to validate statements about history or equality.
 
 ## Files
-- app.py — CLI tool to read a storage slot at two blocks and emit a pair commitment.
-- README.md — this document.
+
+Core tool:
+
+  * `app.py` — CLI tool to read a storage slot at two blocks and emit a pair commitment.
+
+Companion tools:
+
+  * `batch_slot_diff.py` — process many (address, slot, block_a, block_b) rows from CSV and emit commitments in batch.
+  * `slot_diff_attest.py` — create a JSON attestation for a single slot across two blocks, optionally signed with an EOA key.
+  * `slot_layout_probe.py` — probe a contract’s storage layout across ranges of slots and two blocks; emits CSV with values and pair roots.
+  * `slot_change_stream.py` — live monitor a single storage slot as new blocks arrive, printing changes and commitments (optionally logging to CSV).
+  * `slot_change_finder.py` — helper for searching the block range where a given slot first changes (if present).
+
+Docs:
+
+  * `README.md` — this document.
+
 
 ## Requirements
 - Python 3.10+
