@@ -101,6 +101,20 @@ def main():
     print(f"  Block B: {block_b}  Value: {to_hex(v_b)}  Leaf: {to_hex(leaf_b)}")
     print(f"\n🌳 Pair commitment (Merkle-style root over two leaves): {root}")
     print(f"🔁 Value changed between blocks: {changed}")
+if args.json:
+    import json
+    payload = {
+        "address": address,
+        "slot": slot,
+        "block_a": block_a,
+        "block_b": block_b,
+        "value_a": value_a,
+        "value_b": value_b,
+        "changed": (value_a != value_b),
+        "commitment_hex": pair_hex,
+    }
+    print(json.dumps(payload, indent=2, sort_keys=True))
+    return
 
     if v_a == v_b:
         print("✅ Soundness note: storage value is identical at both blocks; root binds the equality evidence.")
