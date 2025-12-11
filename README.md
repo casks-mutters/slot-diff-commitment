@@ -68,3 +68,11 @@ This makes outputs reproducible across nodes given identical inputs.
 - **Invalid address**: Double-check 0x prefix and length; use checksummed addresses.
 - **Rate limited (HTTP 429)**: Increase `--interval`, change provider, or add a paid key.
 
+# zk-gas-soundness Attestation Tool
+
+This tool generates a signed JSON attestation for an Ethereum contract storage slot, comparing values at two blocks. It includes the contract address, slot number, and block numbers, and can sign the attestation with a private key.
+
+## Usage
+
+```sh
+python attestation_tool.py --address 0xYourContractAddress --slot 123 --block_a 1000 --block_b 2000 --rpc https://mainnet.infura.io/v3/YOUR_API_KEY
